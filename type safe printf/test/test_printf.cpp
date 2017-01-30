@@ -29,24 +29,24 @@ namespace tut
    void test_instance::test<1>()
    {
         std::stringstream ss;
-        type_safe::printf(ss,"% the best!, age %, rating: %", "nikola", 48, 123.456);
-        ensure(ss.str() == "nikola the best!, age 48, rating: 123.456");
+        type_safe::printf(ss,"% Congratulation!, age %, rating: %", "Mr. Anonym", 48, 123.456);
+        ensure(ss.str() == "Mr. Anonym Congratulation!, age 48, rating: 123.456");
 
         std::wstringstream ws;
-        type_safe::printf(ws, L"% the best!, age %, rating: %", L"nikola", 48, 123.456);
-        ensure(ws.str() == L"nikola the best!, age 48, rating: 123.456");
+        type_safe::printf(ws, L"% Congratulation!, age %, rating: %", L"Mr. Anonym", 48, 123.456);
+        ensure(ws.str() == L"Mr. Anonym Congratulation!, age 48, rating: 123.456");
 
-        type_safe::printf(std::wcout, L"% the best!, age %, rating: %\n", L"nikola", 48, 123.456);
-        type_safe::printf(std::cout, "% the best!, age %, rating: %\n", "nikola", 48, 123.456);
+        type_safe::printf(std::wcout, L"% Congratulation!, age %, rating: %\n", L"Mr. Anonym", 48, 123.456);
+        type_safe::printf(std::cout, "% Congratulation!, age %, rating: %\n", "Mr. Anonym", 48, 123.456);
 
-        type_safe::printf("% the best!, age %, rating: %\n", "nikola", 48, 123.456);
-        type_safe::printf(L"% the best!, age %, rating: %\n", L"nikola", 48, 123.456);
+        type_safe::printf("% Congratulation!, age %, rating: %\n", "Mr. Anonym", 48, 123.456);
+        type_safe::printf(L"% Congratulation!, age %, rating: %\n", L"Mr. Anonym", 48, 123.456);
 
-        const std::string s = type_safe::sprintf("% the best!, age %, rating: %", "nikola", 48, 123.456);
-        ensure(s == "nikola the best!, age 48, rating: 123.456");
+        const std::string s = type_safe::sprintf("% Congratulation!, age %, rating: %", "Mr. Anonym", 48, 123.456);
+        ensure(s == "Mr. Anonym Congratulation!, age 48, rating: 123.456");
 
-        const std::wstring w = type_safe::sprintf(L"% the best!, age %, rating: %", L"nikola", 48, 123.456);
-        ensure(w == L"nikola the best!, age 48, rating: 123.456");
+        const std::wstring w = type_safe::sprintf(L"% Congratulation!, age %, rating: %", L"Mr. Anonym", 48, 123.456);
+        ensure(w == L"Mr. Anonym Congratulation!, age 48, rating: 123.456");
    }
 
     template<>

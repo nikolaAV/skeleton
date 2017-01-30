@@ -1,4 +1,4 @@
-# type-safe printf()
+# type-safe printf("% % %", 1, "2", 3.)
 an example (from ``A brief introduction to Variadic templates'' (see references)) implementing a general, type-safe, printf()
 
 It would probably be better to use boost::format, but consider:
@@ -8,7 +8,7 @@ const string pi = "pi";
 const char* m = "The value of %s is about %g (unless you live in %s).\n";
 printf(m,pi,3.14159,"Indiana");
 
-// type-safe version, focus on the format string below
+// type-safe version, focus on the format string below: converion specifiers are absent
 const string pi = "pi";
 const char* m = "The value of % is about % (unless you live in %).\n";
 type_safe::printf(m,pi,3.14159,"Indiana");

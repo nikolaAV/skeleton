@@ -1,0 +1,48 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Visual Studio temp/user files
+*.user
+*.suo
+*.sdf
+*.opensdf
+*.ncb
+
+# Bloodshed Dev-C++ IDE temp/user files
+Makefile.win
+*.layout
+
+
+# Build output directories
+Release
+Debug
+MinSizeRel
+RelWithDebInfo
+ipch
