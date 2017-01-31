@@ -19,12 +19,12 @@ Available signatures:
 ```
 where
 std::string can be used to represent the following character sets:
-			 US-ASCII (7-bit character set)
-			 ISO-LAtin-1 or ISO-8859-1  (8-bit character set)
-			 ISO-LAtin-9 or ISO-8859-15 (8-bit character set)
+*			 US-ASCII (7-bit character set)
+*			 ISO-LAtin-1 or ISO-8859-1  (8-bit character set)
+*			 ISO-LAtin-9 or ISO-8859-15 (8-bit character set)
 std::wtring can be used to represent the following character sets:
-			 UCS-2 (16-bit fixed-sized character set)
-			 UCS-4 or UTF-32 (32-bit fixed-sized character set)                      
+*			 UCS-2 (16-bit fixed-sized character set)
+*			 UCS-4 or UTF-32 (32-bit fixed-sized character set)                      
 
 > NOTE: multibyte character-sets UTF-8 and UTF-16 are out of the specification described above			 
 
