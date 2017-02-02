@@ -1,5 +1,5 @@
-# pointer_cast<TO_TYPE>(FROM_TYPE)
-Safe & Portable converting a pointer of any type into integer representation
+# TO_TYPE pointer_cast(FROM_TYPE)
+Safe & Portable converting a pointer of any type into integer representation.
 In case of dimension shortage one of them (integer,pointer) compiler error will be raised 
 
 ```cpp
