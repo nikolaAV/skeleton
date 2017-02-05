@@ -13,4 +13,4 @@ this technique works for converting any type that you can output using << to a s
 ```
 
 # Related links
-* [C++11FAQ](http://www.stroustrup.com/C++11FAQ.html#variadic-templates) by Bjarne Stroustrup
+* [C++ Style and Technique FAQ](http://www.stroustrup.com/bs_faq2.html#int-to-string) by Bjarne Stroustrup
