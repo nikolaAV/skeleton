@@ -1,5 +1,5 @@
 # unit test substrate
-demonstraits how we can use [TUT, template unit test framework](http://mrzechonek.github.io/tut-framework/) in our own projects
+It demonstrates how we can use [TUT, template unit test framework](http://mrzechonek.github.io/tut-framework/) in our own projects
 
 # Building your own tests
 To build the tests, you will require the following:
