@@ -34,6 +34,7 @@
 *.sdf
 *.opensdf
 *.ncb
+.vs
 
 # Bloodshed Dev-C++ IDE temp/user files
 Makefile.win
