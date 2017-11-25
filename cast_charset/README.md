@@ -1,5 +1,5 @@
 # charset_cast<TO_TYPE>(FROM_TYPE)
-transformation std::strings (C-strings i.e. zero terminated) of fixed charsets into wstrings and vice versa  
+transformation std::strings (C-strings i.e. zero terminated) of __fixed__ charsets into wstrings and vice versa  
 
 Available signatures:
 ```cpp
