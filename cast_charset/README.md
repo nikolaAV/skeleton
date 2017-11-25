@@ -5,6 +5,8 @@ Available signatures:
 ```cpp
          std::wstring to_wstring(const char*,          std::locale);
          std::wstring to_wstring(const std::string&,   std::locale);
+            // Shorter versions which use the global C++ locale object 
+            // or a copy of std::locale::classic if no call to std::locale::global has been made.
          std::wstring charset_cast<std::wstring>(const char*)
          std::wstring charset_cast<std::wstring>(const std::string&)
          std::wstring wstring_cast(const char*)
@@ -12,6 +14,8 @@ Available signatures:
 
          std::string to_string(const wchar_t*,         std::locale);
          std::string to_string(const std::wstring&,    std::locale);
+            // Shorter versions which use the global C++ locale object 
+            // or a copy of std::locale::classic if no call to std::locale::global has been made.
          std::string charset_cast<std::string>(const wchar_t*)
          std::string charset_cast<std::string>(const std::wstring&)
          std::string string_cast(const wchar_t*)
