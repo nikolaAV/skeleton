@@ -3,7 +3,6 @@
 
 #include <sstream>
 #include <string>
-#include <cassert>
 
 /**
    \brief How do I convert an integer to a string?
@@ -21,7 +20,13 @@
             << "float: " << string_cast<float>(s3) << endl;
    \endcode
 
-   \remark http://www.stroustrup.com/bs_faq2.html#int-to-string
+   \remark http://www.stroustrup.com/bs_faq2.html#int-to-string,
+           !!! string conversion based on stream technique does not guarantee precision for floating point types !!!
+           For more details please see the discussion at https://github.com/nlohmann/json/issues/360
+
+   \note since C++17 there is a possibility to use
+      - http://en.cppreference.com/w/cpp/string/basic_string/to_string
+      - http://en.cppreference.com/w/cpp/utility/to_chars as a higher-performance locale-independent alternative
 */
 
 namespace selector
@@ -42,7 +47,9 @@ template <typename TO_TYPE, typename FROM_TYPE>
 inline TO_TYPE string_cast(const FROM_TYPE&  v)
 {
    typename selector::stream<TO_TYPE>::type ss;
-   ss << v;
+   ss << std::fixed 
+      // << std::setprecision(...) is meaningful for all floating-point types 
+      << v;
    return ss.str();
 }
 
