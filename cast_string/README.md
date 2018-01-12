@@ -14,3 +14,4 @@ this technique works for converting any type that you can output using << to a s
 
 # Related links
 * [C++ Style and Technique FAQ](http://www.stroustrup.com/bs_faq2.html#int-to-string) by Bjarne Stroustrup
+* [C++17, Elementary string conversions](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0067r5.html)
