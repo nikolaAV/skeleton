@@ -27,6 +27,10 @@
    \note since C++17 there is a possibility to use
       - http://en.cppreference.com/w/cpp/string/basic_string/to_string
       - http://en.cppreference.com/w/cpp/utility/to_chars as a higher-performance locale-independent alternative
+
+      List of existing approaches can be found at
+      - http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0067r5.html
+      - https://marcoarena.wordpress.com/tag/c17/
 */
 
 namespace selector
