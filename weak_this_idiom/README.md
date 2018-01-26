@@ -16,7 +16,7 @@ public:
 		gives a task execution (do_update) away for other thread
 		and ... and forgets about it
 	*/
-   thread{[wp = weak_from_this()]() {  // <-- std::weak_ptr is captured here
+   std::thread{[wp = weak_from_this()]() {  // <-- std::weak_ptr is captured here
             if(auto sp=wp.lock())
                sp->do_update();  // <-- the guarantee the instance of worker is not destroyed yet 
          }
@@ -34,7 +34,7 @@ int main()
 ## Further informations
 * [When is std::weak_ptr useful?](https://stackoverflow.com/questions/12030650/when-is-stdweak-ptr-useful) on stackoverflow
 * [auto self(shared_from_this())](http://www.boost.org/doc/libs/1_54_0/doc/html/boost_asio/example/cpp11/http/server/connection.cpp) from boost.asio
-* [BBB](https://www.youtube.com/watch?v=QhwPSRiPmUA&index=3&list=PLZN9ZGiWZoZoOoswTzuz8nqDwuxXwuThV) by AAA (start from the frame 14:33)
+* [Как современные возможности C++ облегчают повседневную разработку](https://www.youtube.com/watch?v=QhwPSRiPmUA&index=3&list=PLZN9ZGiWZoZoOoswTzuz8nqDwuxXwuThV) by Алексей Малов (start from the frame 14:33)
 
 ## Related links
 * TBD
