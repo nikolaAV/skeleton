@@ -12,7 +12,7 @@ Example 2. Input sequence is byte string. Leading and trailing characters that d
    trim_if(pin,[](const auto& ch){return !isdigit(ch);});
    // output: "2301"
 ```
-Example 3. Input sequence is a list with elements of `int`. Leading and trailing characters before requested marker (digit:0) must be rejected. 
+Example 3. Input sequence is a list with elements of `int`. Leading and trailing characters before and after the requested marker (digit:0) must be rejected. 
 ```cpp
    list<int> bounded_sequence = { 1,3,6,-9,6,-23, 0,1,2,3,4,5,6,7,8,9,0, -100,99,7,4,2,56 }; 
    trim_if(bounded_sequence,[](int v){return v!=0;});
