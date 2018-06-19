@@ -30,7 +30,7 @@ assert((vector<int>{0,2,8,4,6})==v);
 * [C++17 STL Cookbook](https://books.google.com.ua/books?id=-nc5DwAAQBAJ&lpg=PA46&ots=hQAQ1hPxUx&dq=Deleting%20items%20from%20an%20unsorted%20std%3A%3Avector%20in%20O(1)%20time&pg=PA47#v=onepage&q&f=false) by Jacek Galowicz
 
 ## Related links
-TBD
+[back to algorithm](../)
 
 ## Compilers
 * [GCC 8.1.0](https://wandbox.org/)
