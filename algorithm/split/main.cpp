@@ -66,5 +66,4 @@ int main()
 {
    test1();
    test2();
-   cin.get();
 }
