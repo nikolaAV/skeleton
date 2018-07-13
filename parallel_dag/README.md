@@ -4,6 +4,7 @@ Let's imagine that we want to produce the string "foo bar foo bar this that ", a
 Let's say this functionality is provided by three primitive functions _'create'_, _'concat'_, and _'twice'_.
 Based on that, DAG can be shown as
 ![dag](./dag.gif)
+
 Where our primitive functions can be
 ```cpp
 string create(string_view s) { 
@@ -83,6 +84,7 @@ During execution, the graph will parallelize itself in a seemingly intelligent w
 ```
 Finally, let's have a look at two example schedules of execution of the parallel version
 ![result](./result.gif)
+
 On the left side, we see a single core schedule (it's equivalent to the sequential version). All the function calls have to be done one after each other because we have only a single CPU. That means, that when _'create'_ costs 3 seconds, _'concat'_ costs 5 seconds and _'twice'_ costs 3 seconds, it will take 30 seconds to get the end result.
 On the right side, we see a parallel schedule where as much is done in parallel as the dependencies between the function calls allow. In an ideal world with four cores, we can create all substrings at the same time, then concatenate them and so on. The minimal time to get the result with an optimal parallel schedule is 16 seconds. We cannot go faster if we cannot make the function calls themselves faster. With just four CPU cores we can achieve this execution time. We measurably achieved the optimal schedule!!!
 
