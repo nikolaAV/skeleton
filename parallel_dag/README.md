@@ -1,4 +1,4 @@
-# Header library that enables implicit task-based parallelism in a sequential C++ code
+# Header library that enables explicit task-based parallelism in a sequential C++ code
 Most complex tasks can be broken down into subtasks. Even more, these all subtasks may be compound in the [Direct Acyclic Grapf (DAG)](https://en.wikipedia.org/wiki/Directed_acyclic_graph) that describes which subtask depenrs on what other subtasks in order to finish the higher level task.
 Let's imagine that we want to produce the string "foo bar foo bar this that ", and we can only do this by creating single words and concatenate those with other words, or with themselves.
 Let's say this functionality is provided by three primitive functions _'create'_, _'concat'_, and _'twice'_.
