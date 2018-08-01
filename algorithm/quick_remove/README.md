@@ -24,6 +24,8 @@ quick_remove_if(v, [](int val) {return val%2;} );
 assert(5==v.size());
 assert((vector<int>{0,2,8,4,6})==v);
 ```
+Of course the best advantage `quick_remove_at` gives over `std::remove` provided that the following both conditions are true: a vector owns a big amount of elements and one of the beginning elements is removed. [Quick C++ Benchmark](http://quick-bench.com/UfR7iGGrjWff58ZTIGrIkYzYUAw) shows a result for a vector having 100 elements and when the first one has to be removed. 
+![result](./result.png)
 
 ## Further informations
 * [O(1) deletion in an unordered vector](https://stackoverflow.com/questions/31115718/o1-deletion-in-an-unordered-vector?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa) on stackoverflow
