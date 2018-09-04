@@ -1,5 +1,5 @@
-#ifndef _STD_WARNING_SUPPRESS_ON_INCLUDED_
-#define _STD_WARNING_SUPPRESS_ON_INCLUDED_
+#ifndef STD_WARNING_SUPPRESS_ON_INCLUDED_
+#define STD_WARNING_SUPPRESS_ON_INCLUDED_
 
 /**
    We have no chance to edit the original C++ Library sources.
@@ -17,9 +17,11 @@
 
 #ifdef _MSC_VER
    #pragma warning( push )
+   #pragma warning( disable: 4355 ) // 'this': used in base member initializer list
    #pragma warning( disable: 4365 ) // '<expression>': conversion from '<type>' to '<type>', signed/unsigned mismatch
    #pragma warning( disable: 4514 ) // '<name>': unreferenced inline function has been removed
    #pragma warning( disable: 4571 ) // Informational: catch(...) semantics changed since Visual C++ 7.1; structured exceptions (SEH) are no longer caught
+   #pragma warning( disable: 4623 ) // '<name>': default constructor was implicitly defined as deleted
    #pragma warning( disable: 4625 ) // '<type>': copy constructor was implicitly defined as deleted
    #pragma warning( disable: 4626 ) // 'type': assignment operator was implicitly defined as deleted
    #pragma warning( disable: 4710 ) // '<name>': function not inlined
@@ -28,6 +30,7 @@
    #pragma warning( disable: 5026 ) // '<type>': move constructor was implicitly defined as deleted
    #pragma warning( disable: 5027 ) // '<type>': move assignment operator was implicitly defined as deleted
    #pragma warning( disable: 5031 ) // #pragma warning(pop): likely mismatch, popping warning state pushed in different file
+   #pragma warning( disable: 5039 ) // '<name>': pointer or reference to potentially throwing function passed to extern C function under -EHc. Undefined behavior may occur if this function throws an exception.
 
    // ... TBD
 
@@ -53,4 +56,4 @@
    #include "stdwarnings_suppress_off.h" is expected!!!
 */
 
-#endif //_STD_WARNING_SUPPRESS_ON_INCLUDED_
+#endif //STD_WARNING_SUPPRESS_ON_INCLUDED_
