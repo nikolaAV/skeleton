@@ -25,6 +25,7 @@
    #pragma warning( disable: 4625 ) // '<type>': copy constructor was implicitly defined as deleted
    #pragma warning( disable: 4626 ) // 'type': assignment operator was implicitly defined as deleted
    #pragma warning( disable: 4710 ) // '<name>': function not inlined
+   #pragma warning( disable: 4711 ) // function '<name>' selected for automatic inline expansion
    #pragma warning( disable: 4774 ) // '<name>' : format string expected in argument 3 is not a string literal
    #pragma warning( disable: 4820 ) // '<name>': '<num>' bytes padding added after data member '<name>'
    #pragma warning( disable: 5026 ) // '<type>': move constructor was implicitly defined as deleted
