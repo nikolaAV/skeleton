@@ -8,4 +8,6 @@ To split __any__ (not only strings) range of items at each occurrence of a speci
 Trim- family functions to eliminate elements by a requested criteria from STL containers on both ends. Note: it's not restricted for only std::string & std::wstring.
 * [find_and_replace](./find_and_replace) \
 Find and Replace All Occurrences in a C++ String: `string`, `wstring`, `u16string`, `u32string`.
+* [simple_xor](./simple_xor) \
+STL-like implementation of the simple XOR cipher ([a type of additive cipher](https://en.wikipedia.org/wiki/XOR_cipher) in cryptography).
 
