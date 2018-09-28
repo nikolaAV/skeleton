@@ -58,7 +58,7 @@ template< class T > struct is_forward_iterator;
 template< class T > struct is_bidirectional_iterator;
 ```
 where __T__ - a type to check  
-Every mentioned trait above '___is_...__' after instantiation is derived from two possible boolean types: [`std::true_type`](https://en.cppreference.com/w/cpp/types/integral_constant) or `std::false_type`.
+Every mentioned trait above '___is_...__' after instantiation is derived from one of two possible boolean types: [`std::true_type`](https://en.cppreference.com/w/cpp/types/integral_constant) or `std::false_type`.
 Moreover each trait is accompanied with an appropriate alias variable template
 ```cpp
 template< class T > inline constexpr bool is_iterator_v = is_iterator<T>::value;
