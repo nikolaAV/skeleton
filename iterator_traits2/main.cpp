@@ -26,14 +26,12 @@ namespace iterators
 
    template< typename T>
    using is_iterator = is_category<T,T,always_true>; 
-   template< typename T> using            is_iterator_t = typename is_iterator<T>::type;
-   template< typename T> constexpr bool   is_iterator_v = is_iterator<T>::value;
+   template< typename T> inline constexpr bool   is_iterator_v = is_iterator<T>::value;
 
    #define DEFINE_TRAITS_FOR_(name)   \
       template< typename T>   \
       using is_##name = is_category<T,name##_tag>; \
-      template< typename T> using            is_##name##_t = typename is_##name<T>::type; \
-      template< typename T> constexpr bool   is_##name##_v = is_##name<T>::value
+      template< typename T> inline constexpr bool   is_##name##_v = is_##name<T>::value
 
    DEFINE_TRAITS_FOR_(random_access_iterator);
    DEFINE_TRAITS_FOR_(input_iterator);
