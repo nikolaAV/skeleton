@@ -6,7 +6,7 @@ There are multiple [categories of iterators](https://en.cppreference.com/w/cpp/i
 They are not too hard to memorize, just remember that the capabilities one category requires are inherited from the next powerful category.
 The whole point of iterator categories is that if an algorithm knows what kind of iterator it is dealing with, it can be implemented in an optimized way.
 This way, the programmer can lean back and express his intent, while the compiler can choose the optimal implementation for the given task.  
-But another side of this story when a programmer himself wants to apply such optimization.
+But another side of this story is when a programmer himself wants to apply such optimization.
 Let's say he wants to implement several overloaded his own algorithms for different parametrized input agruments like that:
 ```cpp
     // version for iterators
@@ -27,7 +27,7 @@ Let's say he wants to implement several overloaded his own algorithms for differ
     my_algorithm(const InContainer& src, OutContainer& dest) {
         ...
 ```
-Focusing on iterators, we would like to have similar approach to detect iterators types at compile time like it has been done for built-in type:
+Focusing on iterators, we would like to have approach to detect iterator categories at compile time and this approach would be close to how it has been done for built-in type:
 [`std::integtal<>`](https://en.cppreference.com/w/cpp/header/type_traits), `std::pointer<>`, `std::function<>`, etc.  
 Thus, we wants to see code below to be compilable:
 ```cpp
@@ -70,7 +70,7 @@ template< class T > inline constexpr bool is_iterator_v = is_iterator<T>::value;
 ...
 ```
 #### How does it work?
-In order to detect T is an iterator `std::void_t` metafunction is used which is based on ill-formed types in [SFINAE](https://en.cppreference.com/w/cpp/language/sfinae) context. 
+In order to detect T is an iterator, `std::void_t` metafunction is used which is based on ill-formed types in [SFINAE](https://en.cppreference.com/w/cpp/language/sfinae) context. 
 ```cpp
 // primary template handles types that have no nested ::iterator_category member:
 template< class, class = std::void_t<> >
