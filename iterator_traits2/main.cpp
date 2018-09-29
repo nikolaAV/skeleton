@@ -3,26 +3,24 @@
 
 namespace iterators
 {
-   using namespace std;
-
    template <typename T>
-   using category = typename iterator_traits<T>::iterator_category;
+   using category = typename std::iterator_traits<T>::iterator_category;
 
    template <typename ItCat, typename ItTag>
-   using equal = is_same<ItCat,ItTag>;
+   using equal = std::is_same<ItCat,ItTag>;
 
    template <typename, typename>
-   using always_true = true_type;
+   using always_true = std::true_type;
 
-   template< typename T, typename ItTag, template <typename,typename> typename Eq = equal ,typename = void_t<>>
-   struct is_category : false_type {};
+   template< typename T, typename ItTag, template <typename,typename> typename Eq = equal ,typename = std::void_t<>>
+   struct is_category : std::false_type {};
 
    template< typename T, typename ItTag, template <typename,typename> typename Eq>
-   struct is_category<T,ItTag,Eq,void_t<category<T>>> 
-                      : conditional_t<
+   struct is_category<T,ItTag,Eq,std::void_t<category<T>>> 
+                      : std::conditional_t<
                             Eq<category<T>,ItTag>::value
-                           ,true_type
-                           ,false_type> {};
+                           ,std::true_type
+                           ,std::false_type> {};
 
    template< typename T>
    using is_iterator = is_category<T,T,always_true>; 
@@ -30,7 +28,7 @@ namespace iterators
 
    #define DEFINE_TRAITS_FOR_(name)   \
       template< typename T>   \
-      using is_##name = is_category<T,name##_tag>; \
+      using is_##name = is_category<T,std::name##_tag>; \
       template< typename T> inline constexpr bool   is_##name##_v = is_##name<T>::value
 
    DEFINE_TRAITS_FOR_(random_access_iterator);
@@ -53,6 +51,7 @@ namespace iterators
 
 int main()
 {
+   using namespace std;
    using namespace iterators;
 
    {  vector<int> v = {1,2,3,4,5};
@@ -105,3 +104,4 @@ int main()
       static_assert(is_bidirectional_iterator_v<iterator_type>);
    }
 }
+
