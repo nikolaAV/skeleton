@@ -35,7 +35,7 @@ assert(src[3]==01101001_bs);
 ## Related links
 * [compile time checks](../../iterator_traits2) for categories of iterators
 * [Overloading by means std::enable_if](https://github.com/nikolaAV/Modern-Cpp/tree/master/concept%20(pceudo)/enable_if_overloading)
-[back to algorithm](../)
+* [back to algorithm](../)
 
 ## Compilers
 * [GCC 8.2.0](https://wandbox.org/)
