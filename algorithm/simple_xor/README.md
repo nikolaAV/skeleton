@@ -27,6 +27,11 @@ assert(src[1]==01101001_bs);
 assert(src[2]==01101011_bs);
 assert(src[3]==01101001_bs);
 ```
+If you would like to save encoded data into a separate destination you can write the following:  
+```cpp
+list<unsigned> out;
+simple_xor("Wiki","key",back_inserter(out));
+```
 
 ## Further informations
 * [XOR cipher](https://en.wikipedia.org/wiki/XOR_cipher)
