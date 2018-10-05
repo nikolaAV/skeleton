@@ -32,10 +32,33 @@ If you would like to save encoded data into a separate destination you can write
 vector<char> out;
 simple_xor("Wiki",'\243',back_inserter(out));
 ```
+### Library
+It's a header only library which contains set of overloaded 'simple_xor' and some metafunctions to support [Concept Lite](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3580.pdf).  
+The pivotal 'simple_xor' is declared based on STL-compliant specification including (pseudo-) Concept Lite syntax constructions:
+```cpp
+template<typename InputIt, typename ForwardIt, typename OutputIt
+   ,Requires(concepts::is_iterator_v<InputIt>)
+   ,Requires(concepts::is_iterator_v<ForwardIt>)
+   ,Requires(concepts::is_iterator_v<OutputIt>)
+   >
+OutputIt simple_xor(InputIt src_first, InputIt src_last, ForwardIt key_first, ForwardIt key_last, OutputIt d_first);
+```
+'simple_xor' applies the XOR function (exclusive disjunction operation) to a range [src_first, src_last) and stores the result in another range, beginning at d_first  
+where  
+- _\param_ [src_first, src_last) - a pair of iterators specifying the source range of elements to transform
+- _\param_ [key_first, key_last) - a pair of iterators specifying the XOR encryption key
+- _\param_ d_first - an iterator to the beginning of the destination range, may be equal to src_first
+- _\return_ Output iterator to the element past the last element transformed, i.e. destination.end()  
+
+In generic case 'simple_xor' can be parameterized various kinds of input and output  data including encoding key representation. Stated above can be shown at the picture:
+
+
 
 ## Further informations
 * [XOR cipher](https://en.wikipedia.org/wiki/XOR_cipher)
 * [Exclusive or](https://en.wikipedia.org/wiki/Exclusive_or)
+* [Concepts Lite vs enable_if](https://akrzemi1.wordpress.com/2016/09/21/concepts-lite-vs-enable_if/) by Andrzej Krzemienski
+* [std::void_t](https://www.youtube.com/watch?v=a0FliKwcwXE&feature=youtu.be&t=52m50s) Walter Brown's CppCon2014 talk on template metaprogramming
 
 ## Related links
 * [compile time checks](../../iterator_traits2) for categories of iterators
