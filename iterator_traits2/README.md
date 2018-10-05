@@ -93,6 +93,7 @@ struct is_forward_iterator ...
 ## Related links
 * [Member-function detection at the compile-time](https://github.com/nikolaAV/Modern-Cpp/tree/master/concept%20(pceudo)/has_type_member)
 * [Overload resolution for template function](https://github.com/nikolaAV/Modern-Cpp/tree/master/concept%20(pceudo)/enable_if_overloading#overload-resolution-for-template-function-with-conditional-removement-by-means-stdenable_if)
+* [simple_xor](../algorithm/simple_xor), the impressive set of overloads
 
 ## Compilers
 * [GCC 8.1.0](https://wandbox.org/)
