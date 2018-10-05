@@ -50,8 +50,42 @@ where
 - _\param_ d_first - an iterator to the beginning of the destination range, may be equal to src_first
 - _\return_ Output iterator to the element past the last element transformed, i.e. destination.end()  
 
-In generic case 'simple_xor' can be parameterized various kinds of input and output  data including encoding key representation. Stated above can be shown at the picture:
+In generic case 'simple_xor' can be parameterized various kinds of input and output  data including encoding key representation. Stated above can be shown like this:  
+- input  := {pair of iterators | C string literal | std\::string | std\::container | std\::stream }
+- key    := {pair of iterators | C string literal | std\::string | std\::container | simple value}
+- output := {pair of iterators | std\::string | std\::container | std\::stream }  
 
+In addition to this combination of possible 'simple_xor' signatures (5*5*4=100 cases), an user is allowed to call it if 'input' and 'output' point out to the same data storage. 
+
+### Examples
+```cpp
+   // encoding/decoding std::string
+   string         origin  {"Wiki"};
+   const string   key     {"key"};
+   simple_xor(origin,key);
+   assert(origin!="Wiki");
+   simple_xor(origin,key,origin);        // an equivalent to simple_xor(origin,key);
+   assert(origin=="Wiki");
+```
+```cpp
+   // std::string is encoded to std::list with elements of 'unsigned' type 
+   const string   origin  {"A program that has not been tested does not work. --Bjarne Stroustrup"};
+   list<unsigned> out;
+   simple_xor(origin,origin,back_inserter(out));
+   assert(69==out.size());
+   assert(all_of(out.begin(),out.end(),[](unsigned v){return 0==v;}));
+```
+```cpp
+   // encoding/decoding file content
+   simple_xor(ifstream{"main.cpp",ios::binary},"my secret word",ofstream{"main.encoded",ios::binary}); 
+   simple_xor(ifstream{"main.encoded",ios::binary},"my secret word",ofstream{"main.decoded",ios::binary}); 
+   assert(equal
+            ( input_iterator{ifstream{"main.cpp",ios::binary}}
+             ,input_iterator{}
+             ,input_iterator{ifstream{"main.decoded",ios::binary}}
+            )
+   );
+```
 
 
 ## Further informations
