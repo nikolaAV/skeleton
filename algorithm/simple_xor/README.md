@@ -2,7 +2,7 @@
 XOR encryption (or Exclusive-OR encryption) is a common method of encrypting data into a format that cannot be trivially cracked by the _average_ person but it can trivially be broken if a person knows cryptanalysis. The XOR operator is extremely common as a component in more complex ciphers. The current implementation of XOR cipher is STL-like algorithm that provides enormous variability of function calls by means overloaded function templates. 
 ### Basics
 'Exclisive OR' is sometimes called modulus 2 addition (or subtraction, which is identical). With this logic, a string of text can be encrypted by applying the bitwise XOR operator to every character using a given key. To decrypt the output, merely reapplying the XOR function with the key will remove the cipher.   
-For example, the string "Wiki" (01010111 01101001 01101011 01101001 in 8-bit ASCII) can be encrypted with the repeating key 11110011 (number: 243) as follows:  
+[For example](https://en.wikipedia.org/wiki/XOR_cipher), the string "Wiki" (01010111 01101001 01101011 01101001 in 8-bit ASCII) can be encrypted with the repeating key 11110011 (number: 243) as follows:  
 ![example](./example.gif)  
 That is an equivalent to code:
 ```cpp
@@ -50,12 +50,12 @@ where
 - _\param_ d_first - an iterator to the beginning of the destination range, may be equal to src_first
 - _\return_ Output iterator to the element past the last element transformed, i.e. destination.end()  
 
-In generic case 'simple_xor' can be parameterized various kinds of input and output  data including encoding key representation. Stated above can be shown like this:  
+In generic case 'simple_xor' can be parameterized various kinds of input and output  data including encoding key representation. Stated above it can be specified like this:  
 - input  := {pair of iterators | C string literal | std\::string | std\::container | std\::stream }
 - key    := {pair of iterators | C string literal | std\::string | std\::container | simple value}
 - output := {pair of iterators | std\::string | std\::container | std\::stream }  
 
-In addition to this combination of possible 'simple_xor' signatures (5*5*4=100 cases), an user is allowed to call it if 'input' and 'output' point out to the same data storage. 
+In addition to this combination of possible 'simple_xor' signatures (5\*5\*4=100 cases), an user is allowed to call it if _the input_ and _the output_ point out to the same data storage. 
 
 ### Examples
 ```cpp
