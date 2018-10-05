@@ -79,6 +79,7 @@ In addition to this combination of possible 'simple_xor' signatures (5\*5\*4=100
    // encoding/decoding file content
    simple_xor(ifstream{"main.cpp",ios::binary},"my secret word",ofstream{"main.encoded",ios::binary}); 
    simple_xor(ifstream{"main.encoded",ios::binary},"my secret word",ofstream{"main.decoded",ios::binary}); 
+   using input_iterator = istreambuf_iterator<typename ifstream::char_type>;
    assert(equal
             ( input_iterator{ifstream{"main.cpp",ios::binary}}
              ,input_iterator{}
@@ -86,8 +87,6 @@ In addition to this combination of possible 'simple_xor' signatures (5\*5\*4=100
             )
    );
 ```
-
-
 ## Further informations
 * [XOR cipher](https://en.wikipedia.org/wiki/XOR_cipher)
 * [Exclusive or](https://en.wikipedia.org/wiki/Exclusive_or)
