@@ -29,6 +29,16 @@ namespace concepts
                            std::is_same_v<T,typename U::value_type>,
                            std::true_type,std::false_type> {};
 
+   template< typename T, typename U >
+   struct is_value_type_of<T,U*> : std::conditional_t<
+                           std::is_same_v<T,std::remove_cv_t<U>>,
+                           std::true_type,std::false_type> {};
+
+   template< typename T, typename U, std::size_t N >
+   struct is_value_type_of<T,U[N]> : std::conditional_t<
+                           std::is_same_v<T,std::remove_cv_t<U>>,
+                           std::true_type,std::false_type> {};
+
    template< typename T >
    inline constexpr bool is_iterator_v = is_iterator<T>::value || std::is_pointer_v<T>;
 
@@ -359,6 +369,17 @@ void test1_3()
    assert(out[3]==01101001_bs);
 }
 
+void test1_4()
+{
+   vector<char> out;
+   simple_xor("Wiki",'\243',back_inserter(out));
+   simple_xor(out,'\243');
+   assert(out[0]=='W');
+   assert(out[1]=='i');
+   assert(out[2]=='k');
+   assert(out[3]=='i');
+}
+
 void test2_1()
 {
    string         origin  {"Wiki"};
@@ -430,6 +451,7 @@ int main()
    test1_1();
    test1_2();
    test1_3();
+   test1_4();
    test2_1();
    test2_2();
    test2_3();

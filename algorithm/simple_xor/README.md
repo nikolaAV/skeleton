@@ -2,7 +2,7 @@
 XOR encryption (or Exclusive-OR encryption) is a common method of encrypting data into a format that cannot be trivially cracked by the _average_ person but it can trivially be broken if a person knows cryptanalysis. The XOR operator is extremely common as a component in more complex ciphers. The current implementation of XOR cipher is STL-like algorithm that provides enormous variability of function calls by means overloaded function templates. 
 ### Basics
 'Exclisive OR' is sometimes called modulus 2 addition (or subtraction, which is identical). With this logic, a string of text can be encrypted by applying the bitwise XOR operator to every character using a given key. To decrypt the output, merely reapplying the XOR function with the key will remove the cipher.   
-For example, the string "Wiki" (01010111 01101001 01101011 01101001 in 8-bit ASCII) can be encrypted with the repeating key 11110011 as follows:  
+For example, the string "Wiki" (01010111 01101001 01101011 01101001 in 8-bit ASCII) can be encrypted with the repeating key 11110011 (number: 243) as follows:  
 ![example](./example.gif)  
 That is an equivalent to code:
 ```cpp
@@ -29,8 +29,8 @@ assert(src[3]==01101001_bs);
 ```
 If you would like to save encoded data into a separate destination you can write the following:  
 ```cpp
-list<unsigned> out;
-simple_xor("Wiki","key",back_inserter(out));
+vector<char> out;
+simple_xor("Wiki",'\243',back_inserter(out));
 ```
 
 ## Further informations
