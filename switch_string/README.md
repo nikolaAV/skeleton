@@ -26,11 +26,11 @@ _hash_ - is a compile time string hashing function that satisfies [__Hash requir
 
 ### Limitation
 The main problem with this approach is the possibility of [hash collisions](https://crypto.stackexchange.com/questions/8765/is-there-a-hash-function-which-has-no-collisions).
-Any of implementation of hash function isnít very strong, very obviously, but can be dealt with by the compiler.
-If a collision occurs, it will be detected at compile-time and the compiler will issue a warning or an error about ìduplicate case valueî. In this case, the only correct workaround is to eliminate collisions by changing the hash function.
+Any of implementation of hash function isn‚Äôt very strong, very obviously, but can be dealt with by the compiler.
+If a collision occurs, it will be detected at compile-time and the compiler will issue a warning or an error about ‚Äúduplicate case value‚Äù. In this case, the only correct workaround is to eliminate collisions by changing the hash function.
 
 ## Further informations
-* [FowlerñNollñVo hash function](https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function)
+* [Fowler‚ÄìNoll‚ÄìVo hash function](https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function)
 * [Evaluate a string with a switch in C++](https://stackoverflow.com/questions/16388510/evaluate-a-string-with-a-switch-in-c/16388610#16388610)
 * [Strings in C++ Switch/Case statements](https://hbfs.wordpress.com/2017/01/10/strings-in-c-switchcase-statements/)
 
@@ -39,5 +39,5 @@ TBD
 
 ## Compilers
 * [GCC 8.1.0](https://wandbox.org/)
-* [clang 6.0.0](https://wandbox.org/)
-* Microsoft (R) C/C++ Compiler 19.14 
+* [clang 7.1.0](https://wandbox.org/)
+* Microsoft (R) C/C++ Compiler 19.16 
