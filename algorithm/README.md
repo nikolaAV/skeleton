@@ -10,4 +10,6 @@ Trim- family functions to eliminate elements by a requested criteria from STL co
 Find and Replace All Occurrences in a C++ String: `string`, `wstring`, `u16string`, `u32string`.
 * [simple_xor](./simple_xor) \
 STL-like implementation of the simple XOR cipher ([a type of additive cipher](https://en.wikipedia.org/wiki/XOR_cipher) in cryptography).
+* [for_each_permutation](./for_each_permutation) \
+makes all possible permutations based on input sequence and applies user-defined function for each of them. 
 
