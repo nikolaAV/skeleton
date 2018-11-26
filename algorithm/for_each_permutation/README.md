@@ -20,7 +20,7 @@ No matter for what reason we need all permutations of some value range, 'for_eac
 where for_each_permutation defined as
 ```cpp
    template< class InputIt, class RangeFunction >
-   RangeFunction for_each( InputIt first, InputIt last, RangeFunction f);
+   RangeFunction for_each_permutation( InputIt first, InputIt last, RangeFunction f);
 ```
 * first, last - the range to apply the function to. They are [_InputIterator_](https://en.cppreference.com/w/cpp/named_req/InputIterator)  
 * f - function object, to be applied to a permutation based on the range [first,last). The signature of the function should be equivalent to the following: void fun(InputIt, InputIt).
