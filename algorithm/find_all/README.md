@@ -38,6 +38,8 @@ where _find_all_ defined as
 TBD
 
 ## Related links
+* [transform_if](../transform_if)
+
 [back to algorithm](../)
 
 ## Compilers
