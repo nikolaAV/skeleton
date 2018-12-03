@@ -2,7 +2,7 @@
 Most developers who have used [`std::copy_if`](https://en.cppreference.com/w/cpp/algorithm/copy) and [`std::transform`](https://en.cppreference.com/w/cpp/algorithm/transform) may have asked themselves already, why there is no std::transform_if.
 The `std::copy_if` function copies items from a source range to a destination range, but skips the items that are not selected by a user-defined predicate function.
 The `std::transform` unconditionally copies all items from a source range to a destination range but transforms them in between.
-The transformation is provided by a user-defined function, which might do simple things, such as multiplying numbers or transforming itemsÂ to completely different types.
+The transformation is provided by a user-defined function, which might do simple things, such as multiplying numbers or transforming items to completely different types.
 Such functions have been there for a long time now, but there is still no `std::transform_if` function.
 The possible implementation can be:
 ```cpp
