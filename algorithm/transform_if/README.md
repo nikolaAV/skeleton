@@ -36,7 +36,7 @@ TBD
 
 ## Related links
 * [find_all](../find_all)
-* [transform_if = std::accumulate + lambdas] (https://github.com/nikolaAV/Modern-Cpp/tree/master/lambda/lambda_currying2)
+* [transform_if=std::accumulate+lambdas](https://github.com/nikolaAV/Modern-Cpp/tree/master/lambda/lambda_currying2)
 
 [back to algorithm](../)
 
