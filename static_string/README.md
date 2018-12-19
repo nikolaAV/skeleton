@@ -14,9 +14,14 @@ This example will focus on our goal: initialize a possibly concatenated string _
    cout << expr << endl;
 ```
 
-# Related links
+## Further informations
 * [Compile-time string concatenation](https://akrzemi1.wordpress.com/2017/06/28/compile-time-string-concatenation/) by Andrzej Krzemienski
 
-# See also
+## Related links
 * [other examples compile-time computing](https://github.com/nikolaAV/Modern-Cpp/tree/master/constexpr)
 * [examples of pack expansions come with variadic templates](https://github.com/nikolaAV/Modern-Cpp/tree/master/variadic)
+
+## Compilers
+* [GCC 8.1.0](https://wandbox.org/)
+* [clang 6.0.0](https://wandbox.org/)
+* Microsoft (R) C/C++ Compiler 19.14 
