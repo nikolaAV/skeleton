@@ -17,7 +17,7 @@ No matter for what reason we need all permutations of some value range, 'for_eac
     c, a, b, 
     c, b, a, 
 ```
-where for_each_permutation defined as
+where _for_each_permutation_ defined as
 ```cpp
    template< class InputIt, class RangeFunction >
    RangeFunction for_each_permutation( InputIt first, InputIt last, RangeFunction f);
