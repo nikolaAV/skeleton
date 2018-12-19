@@ -31,7 +31,7 @@ Usage:
 TBD
 
 ## Related links
-* [compile-time gcd](../../constexpr/greatest_common_divisor)
+* [compile-time gcd](https://github.com/nikolaAV/Modern-Cpp/tree/master/constexpr/greatest_common_divisor)
 
 [back to algorithm](../)
 
