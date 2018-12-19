@@ -35,7 +35,7 @@ If a collision occurs, it will be detected at compile-time and the compiler will
 * [Strings in C++ Switch/Case statements](https://hbfs.wordpress.com/2017/01/10/strings-in-c-switchcase-statements/)
 
 ## Related links
-TBD
+* [Other examples of compile time computing](https://github.com/nikolaAV/Modern-Cpp/blob/master/constexpr)
 
 ## Compilers
 * [GCC 8.1.0](https://wandbox.org/)
