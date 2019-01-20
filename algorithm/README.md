@@ -5,7 +5,8 @@ In some situations, the existing STL algorithms are not enough. But nothing hind
 * [find_and_replace](./find_and_replace) \
 Find and Replace All Occurrences in a C++ String: `string`, `wstring`, `u16string`, `u32string`.
 * [for_each_permutation](./for_each_permutation) generates all possible permutations of input sequence and applies user-defined function object to each of them. 
-* [the greatest common divisor](./gcd) for ranges.
+* [the greatest common divisor](./gcd) for ranges.  
+* [insert_sorted](./insert_sorted) inserts an element into previously sorted sequence container to preserve its order. 
 * [quick_remove_at & quick_remove_if](./quick_remove) \
 These algorithms are dedicated for the particular type of STL containers: vectors. You can remove an element by the index (quick_remove_at)  with the amortized constant complexity _O(1)_. Note: the algorithm does not guarantee element ordering after the operation completion. There is also version (quick_remove_if) that removes all elements satisfying criteria with complexity _O(n)_.
 * [simple_xor](./simple_xor) \
