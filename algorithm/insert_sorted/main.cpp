@@ -26,7 +26,6 @@ namespace concepts
 /**
    \brief Inserts elements at a location to preserve the order in the container.
    \note  the container must be sorted before. Otherwise, this would not work.
-
    \param [in,out] seq - a sequence container (vector,list,deque,string) in which elements are sorted 
    \param [in]     v   - element value to insert
    \retval  an iterator pointing to the inserted value
@@ -70,9 +69,11 @@ int main()
    insert_sorted(vec,"bbb");
    assert(vec==(vector<string>{"aaa","bbb","order","random","some","without","words","zzz"}));
 
-   list<size_t> lst {0,1,2,3,4,5,6,8,9};
-   insert_sorted(lst,7);
-   assert(lst==(list<size_t>{0,1,2,3,4,5,6,7,8,9}));
+   list<size_t> lst;
+   for(auto i:{3,6,0,4,1,5,8,2,9,7})
+      insert_sorted(lst,i);
+   lst.pop_front();
+   assert(lst==(list<size_t>{1,2,3,4,5,6,7,8,9}));
 
    set<string> st{"some","random","words","without","order","aaa","zzz"};
    insert_sorted(st,"bbb");
