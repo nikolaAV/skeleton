@@ -27,7 +27,14 @@ where
 
 The 'insert_sorted' function is pretty generic. It can also work on other container payload types, and even on other containers such [`std::set`](https://en.cppreference.com/w/cpp/container/set). 
 `std::set` is a sorted collection in which the position of an element depends on its value and, by definition, its own insertion is more efficient.  
-
+By the way, there is an interesting case of usage 'insert_sorted' with [`std::list`](https://en.cppreference.com/w/cpp/container/list) that gives us the implementation of _stack_ abstraction of elements automatically allocated in the heap.  
+```cpp
+list<size_t> lst;
+for(auto i:{3,6,0,4,1,5,8,2,9,7})
+   insert_sorted(lst,i);
+lst.pop_front();
+// output: 1,2,3,4,5,6,7,8,9
+```
 ## Further informations
 * [C++17 STL Cookbook](https://books.google.com.ua/books?id=-nc5DwAAQBAJ&pg=PA53&dq=Keeping+std::vector+instances+sorted&hl=en&sa=X&ved=0ahUKEwjjvMae_fvfAhWshKYKHSn1AvkQ6AEIMDAB#v=onepage&q&f=false) by Jacek Galowicz
 
