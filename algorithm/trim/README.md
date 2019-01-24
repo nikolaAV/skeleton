@@ -9,8 +9,8 @@ Example 1. Input sequence is wide string with leading and trailing white-space c
 Example 2. Input sequence is byte string. Leading and trailing characters that do not represent decimal digits must be removed. 
 ```cpp
    string pin = "abce{2301X*&%-";
-   trim_if(pin,[](const auto& ch){return !isdigit(ch);});
-   // output: "2301"
+   const auto discarded = trim_if(pin,[](const auto& ch){return !isdigit(ch);});
+   // output: pin=="2301", discarded==10
 ```
 Example 3. Input sequence is a list with elements of `int`. Leading and trailing characters before and after the requested marker (digit:0) must be rejected. 
 ```cpp
