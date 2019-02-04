@@ -87,7 +87,7 @@ class rectangle : public auto_enrolment<shape,rectangle>
 void usage(const string& key)
 {
     using shapes   = registrar<shape>;
-    auto s = shapes::get("circle")
+    auto s = shapes::get(key)
     s->draw();
 }
 ```
