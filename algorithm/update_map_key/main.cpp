@@ -8,7 +8,7 @@
    param [in,out] 'm' is a map-source container
    param [in]     'pos' iterator to the position in which the element key will be updated
    param [in]     'new_key' is a new key value
-   retval  a pair consisting of an iterator to the element with updated key(or m.end()) and a bool denoting whether the updating took place. 
+   retval  a pair consisting of an iterator to the element with updated key(or m.end()) and a bool denoting whether the updating took place. If the updating failes then the source 'm' remains unchangeable.
             - if an element does not exist, pair::first is end(), pair::second is false
             - if a key duplication is detected, pair::first is a position to element with 'key_new', pair::second is false
 */
