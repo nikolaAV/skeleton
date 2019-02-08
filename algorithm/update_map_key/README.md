@@ -21,6 +21,8 @@ where
 * 'old_key' is a the key value which to be changed
 * 'new_key' is a new key value
 * it returns a pair consisting of an iterator to the element with updated key(or m.end()) and a `bool` denoting whether the updating took place.
+    - if an element does not exist, `pair::first` is end(), `pair::second` is false
+    - if a key duplication is detected, `pair::first` is a position to element with 'key_new', `pair::second` is false
 * complexity is logarithmic
 
 ## Further informations
