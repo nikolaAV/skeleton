@@ -32,6 +32,7 @@ where
 * [`std::map::extract`](https://en.cppreference.com/w/cpp/container/map/extract)
 
 ## Related links
+* [swap_map_key](../swap_map_key) 
 [back to algorithm](../)
 
 ## Compilers
