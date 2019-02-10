@@ -17,7 +17,7 @@ where
 * [`std::map::extract`](https://en.cppreference.com/w/cpp/container/map/extract)
 
 ## Related links
-* [update_map_key](../.update_map_key)  
+* [update_map_key](../update_map_key)  
 [back to algorithm](../)
 
 ## Compilers
