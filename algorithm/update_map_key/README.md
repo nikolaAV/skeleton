@@ -33,6 +33,7 @@ where
 
 ## Related links
 * [swap_map_key](../swap_map_key) 
+
 [back to algorithm](../)
 
 ## Compilers
