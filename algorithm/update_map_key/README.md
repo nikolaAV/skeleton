@@ -7,6 +7,8 @@ But what shall we do if we really need to change the keys of some map items?
 Prior to `C++17`, we had to remove the items of which we need to change the key value from the tree, in order to reinsert them.
 The downside of this approach is that this always needlessly reallocates some memory, which sounds bad in terms of performance.  
 Since `C++17`, we can remove and reinsert map nodes __without__ any reallocation of memory.
+[Quick C++ Benchmark](http://quick-bench.com/BPG02nX9ZuvENMWye0pevx9gKlQ) It shows the following benefit in the performance which [modern facilities](https://en.cppreference.com/w/cpp/container/map/extract) of the Library can give us: 
+![result](./performance.png)
 
 ```cpp
 template<typename Key, typename T>
@@ -27,6 +29,7 @@ where
 
 ## Further informations
 * [C++17 STL Cookbook](https://books.google.com.ua/books?id=-nc5DwAAQBAJ&pg=PA63&lpg=PA63&dq=Efficiently+modifying+the+keys+of+%60std::map%60+items+%D0%A1%2B%2B&source=bl&ots=hQCR5jWEWv&sig=ACfU3U2tyvpxJTVTQvbaWUnBWW6PmTQOjA&hl=en&sa=X&ved=2ahUKEwjq9fe_jazgAhXzCTQIHekiDjsQ6AEwAXoECAMQAQ#v=onepage&q&f=false) by Jacek Galowicz
+* [`std::map::extract`](https://en.cppreference.com/w/cpp/container/map/extract)
 
 ## Related links
 [back to algorithm](../)

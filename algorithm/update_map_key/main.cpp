@@ -8,7 +8,8 @@
    param [in,out] 'm' is a map-source container
    param [in]     'pos' iterator to the position in which the element key will be updated
    param [in]     'new_key' is a new key value
-   retval  a pair consisting of an iterator to the element with updated key(or m.end()) and a bool denoting whether the updating took place. If the updating failes then the source 'm' remains unchangeable.
+   retval  a std::pair<iterator,bool> consisting of an iterator to the element with updated key(or m.end()) and a bool denoting whether the updating took place.
+            - if the updating failes then the source 'm' remains unchangeable.
             - if an element does not exist, pair::first is end(), pair::second is false
             - if a key duplication is detected, pair::first is a position to element with 'key_new', pair::second is false
 */
@@ -21,13 +22,14 @@ template<
 >
 auto update_key( std::map<Key,T,Compare,Allocator>& m 
                 ,typename std::map<Key,T,Compare,Allocator>::const_iterator pos
-                ,Key new_key_copy
+                ,const Key& new_key
                )
 {
    auto nh = m.extract(pos);
    if(nh.empty())
       return std::make_pair(m.end(),false);
 
+   Key new_key_copy{new_key};
    std::swap(new_key_copy,nh.key());
    auto [position,inserted,node] = m.insert(std::move(nh));
    if(!inserted) {
@@ -75,6 +77,8 @@ int main()
 
    auto r = update_key(student_grades,5,8);
    assert(r.second);
+   assert(r.first->first==8 && r.first->second=="Yoshi");
+   assert(r.first==student_grades.find(8));
 
    cout << "--- After update ---" << endl;
    for(auto&& s:student_grades)
@@ -86,5 +90,6 @@ int main()
       (map<int,string,greater<int>>{{10,"Mario"},{9,"Luigi"},{11,"Bowser"},{8,"Yoshi"},{7,"Toad"}}) 
       == student_grades
    );
+   assert(r.first->first==9 && r.first->second=="Luigi");
 }
 
