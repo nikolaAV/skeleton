@@ -1,12 +1,39 @@
 #include <map>
 #include <utility>
 #include <iterator>
+#include <cassert>
+
+template<
+    typename Key,
+    typename T,
+    typename Compare,
+    typename Allocator
+>
+auto update_key( std::map<Key,T,Compare,Allocator>& m 
+                ,typename std::map<Key,T,Compare,Allocator>::node_type n
+                ,const Key& new_key
+               )
+{
+   if(n.empty())
+      return std::make_pair(m.end(),false);
+
+   Key new_key_copy{new_key};
+   std::swap(new_key_copy,n.key());
+   auto [position,inserted,node] = m.insert(std::move(n));
+   if(!inserted) {
+      assert(position!=m.end());
+      std::swap(new_key_copy,node.key());
+      auto const res = m.insert(std::move(node));
+      assert(res.inserted);
+   }
+   return std::make_pair(position,inserted);
+}
 
 /**
    Changes the keys of requested map items without re-insertion and memory relocation.
 
    param [in,out] 'm' is a map-source container
-   param [in]     'pos' iterator to the position in which the element key will be updated
+   param [in]     'old_key' is an old key value
    param [in]     'new_key' is a new key value
    retval  a std::pair<iterator,bool> consisting of an iterator to the element with updated key(or m.end()) and a bool denoting whether the updating took place.
             - if the updating failes then the source 'm' remains unchangeable.
@@ -21,22 +48,11 @@ template<
     typename Allocator
 >
 auto update_key( std::map<Key,T,Compare,Allocator>& m 
-                ,typename std::map<Key,T,Compare,Allocator>::const_iterator pos
+                ,const Key& old_key
                 ,const Key& new_key
                )
 {
-   auto nh = m.extract(pos);
-   if(nh.empty())
-      return std::make_pair(m.end(),false);
-
-   Key new_key_copy{new_key};
-   std::swap(new_key_copy,nh.key());
-   auto [position,inserted,node] = m.insert(std::move(nh));
-   if(!inserted) {
-      std::swap(new_key_copy,node.key());
-      m.insert(std::move(node));
-   }
-   return std::make_pair(position,inserted);
+   return update_key(m,std::move(m.extract(old_key)),new_key); 
 }
 
 template<
@@ -46,11 +62,11 @@ template<
     typename Allocator
 >
 auto update_key( std::map<Key,T,Compare,Allocator>& m 
-                ,const Key& old_key
+                ,typename std::map<Key,T,Compare,Allocator>::const_iterator pos
                 ,const Key& new_key
                )
 {
-   return update_key(m,m.find(old_key),new_key); 
+   return update_key(m,std::move(m.extract(pos)),new_key);
 }
 
 ////// Example of Usage //////
