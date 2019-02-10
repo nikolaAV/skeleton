@@ -52,7 +52,7 @@ auto update_key( std::map<Key,T,Compare,Allocator>& m
                 ,const Key& new_key
                )
 {
-   return update_key(m,std::move(m.extract(old_key)),new_key); 
+   return update_key(m,m.extract(old_key),new_key); 
 }
 
 template<
@@ -66,7 +66,7 @@ auto update_key( std::map<Key,T,Compare,Allocator>& m
                 ,const Key& new_key
                )
 {
-   return update_key(m,std::move(m.extract(pos)),new_key);
+   return update_key(m,m.extract(pos),new_key);
 }
 
 ////// Example of Usage //////
