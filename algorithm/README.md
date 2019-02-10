@@ -17,3 +17,5 @@ iterates over the ranges while copying all the items that are selected by a pred
 Trim- family functions to eliminate elements by a requested criteria from STL containers on both ends. Note: it's not restricted for only std::string & std::wstring.
 * [unstable_remove_at, unstable_erase & unstable_erase_if ](./quick_remove) \
 These algorithms are dedicated for the particular type of STL containers: vectors. You can remove an element by the index (unstable_remove_at)  with the amortized constant complexity _O(1)_. Note: the algorithm does not guarantee element ordering after the operation completion. There are also versions (unstable_erase, unstable_erase_if) that removes all elements satisfying criteria with complexity _O(n)_.
+* [update_map_key](./update_map_key) \
+Since `C++17` there is a way of efficiently modifying the keys of `std::map items` without memory relocation
