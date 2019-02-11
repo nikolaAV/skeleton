@@ -5,6 +5,10 @@
 /**
    'swap_value' swaps values of the specified elements by its keys in the requested map-container    
    'swap_key'   swaps keys of the specified elements in the requested map-container    
+
+   \param[in,out] m - a target map-container
+   \param[in] first, second - keys or iterators which points out map items whose contents to swap
+   \retval 'true' if the swapping took place, 'false' otherwise
 */
 
 template<
