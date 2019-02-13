@@ -21,6 +21,7 @@
    #pragma warning( disable: 4365 ) // '<expression>': conversion from '<type>' to '<type>', signed/unsigned mismatch
    #pragma warning( disable: 4514 ) // '<name>': unreferenced inline function has been removed
    #pragma warning( disable: 4571 ) // Informational: catch(...) semantics changed since Visual C++ 7.1; structured exceptions (SEH) are no longer caught
+   #pragma warning( disable: 4582 ) // <name> constructor is not implicitly called
    #pragma warning( disable: 4623 ) // '<name>': default constructor was implicitly defined as deleted
    #pragma warning( disable: 4625 ) // '<type>': copy constructor was implicitly defined as deleted
    #pragma warning( disable: 4626 ) // 'type': assignment operator was implicitly defined as deleted
