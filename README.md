@@ -9,6 +9,7 @@ contains set of outlines (complete projects to be used) based on well known desi
 * [parallel::cout](./parallel_cout) is a equivalent to `std::cout` to be used in multithreading programming.
 * [parallel::dag](./parallel_dag) An easy way how to transform sequential tasks described by [Directed acyclic graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph) into a concurrent analog to be used on multiple CPU cores. 
 * [parallel::weak_this_idiom](./weak_this_idiom) The technique gives you a guarantee that a target object still exists or has been already destroyed when an asynchronous callback is invoked.
+* [passkey idiom](./passkey_idiom) How to get restricted friendship.
 * [Auto generation of !=,>,<=,>=](./rel_ops_auto) for any object of type __T__ with given a user-defined `operator==` and `operator<`.
 * [self_registration](./self_registration) Polymorphic types with self registration ability just to get rid of Factory modification.
 * [string constants](./static_string) String literal manipulation at compile time.
