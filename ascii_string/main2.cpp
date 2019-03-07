@@ -10,65 +10,58 @@ namespace ascii
 {
 
 template <typename CharT>
-constexpr bool is_ascii(const CharT& ch) noexcept {
-   return 0x0 <= ch && ch <= 0x7F;  // https://en.cppreference.com/w/cpp/language/ascii
+constexpr bool is_ascii(const CharT& ch) {
+   // https://en.cppreference.com/w/cpp/language/ascii
+   return 0x0 <= ch && ch <= 0x7F;
 }
 
 template <typename CharT>
-struct sieve_exception {
-   template <typename CharU>
-   constexpr bool operator()(CharT& l, CharU&& r) const {
-      return is_ascii(r)?
-            l=std::forward<CharU>(r), true
-         :  throw std::invalid_argument{"no ascii character"}, false
-      ;
-   } 
+struct err_exception {
+   CharT operator()() const {
+      throw std::invalid_argument{"no ascii character"};
+   }
 };
 
 template <typename CharT>
-struct sieve_skip {
-   template <typename CharU>
-   constexpr bool operator()(CharT& l, CharU&& r) const {
-      return is_ascii(r)?
-            l=std::forward<CharU>(r), true
-         :  false
-      ;
-   } 
+struct err_question_mark {
+   constexpr CharT operator()() const noexcept {
+      return static_cast<CharT>('?');
+   }
 };
 
-template <typename CharT>
-struct sieve_question_mark {
-   template <typename CharU>
-   constexpr bool operator()(CharT& l, CharU&& r) const {
-      return is_ascii(r)?
-            l=std::forward<CharU>(r), true
-         :  l='?', true // <--- yes, it's correct. the assignment has taken a place
-      ;
-   } 
-};
+/**
+   \see https://stackoverflow.com/questions/26072709/how-to-use-static-assert-for-constexpr-function-arguments-in-c
+   \see https://akrzemi1.wordpress.com/2017/05/18/asserts-in-constexpr-functions/
+   \see https://github.com/nikolaAV/Modern-Cpp/tree/master/constexpr/invocation_context
+*/
+template <typename ErrPolicy,typename CharT>
+constexpr decltype(auto) sieve(CharT&& ch) {
+   return is_ascii(ch)? 
+         std::forward<CharT>(ch) 
+      :  ErrPolicy{}()
+   ;
+}
 
-template <typename CharT, typename SieveT>
+template <typename CharT, typename ErrPolicy>
 struct char_traits : std::char_traits<CharT> {
-   static constexpr void assign( CharT& l, const CharT& r ) {
-      SieveT{}(l,r);
+   static constexpr void assign( CharT& r, const CharT& a ) {
+      std::char_traits<CharT>::assign(r,sieve<ErrPolicy>(a));
    }
    static constexpr CharT* copy( CharT* dest, const CharT* src, std::size_t count ) {
       for (std::size_t i{0}; i < count; ++i)
-         if(SieveT{}(*dest,src[i]))
-            ++dest;   
+         *dest++ = sieve<ErrPolicy>(src[i]);
       return dest;
    }
    static constexpr CharT* move( CharT* dest, const CharT* src, std::size_t count ) {
       for (std::size_t i{0}; i < count; ++i)
-         if(SieveT{}(*dest,std::move(src[i])))
-            ++dest;   
+         *dest++ = sieve<ErrPolicy>(std::move(src[i]));
       return dest;
    }
 };
 
-template <typename CharT, typename SieveT=sieve_skip<CharT>, typename AllocT=std::allocator<CharT>>
-struct basic_string : std::basic_string<CharT,char_traits<CharT,SieveT>,AllocT> {
-   using base_type = std::basic_string<CharT,char_traits<CharT,SieveT>,AllocT>;
+template <typename CharT, typename ErrPolicy, typename Alloc = std::allocator<CharT>>
+struct basic_string : std::basic_string<CharT,char_traits<CharT,ErrPolicy>,Alloc> {
+   using base_type = std::basic_string<CharT,char_traits<CharT,ErrPolicy>,Alloc>;
    using base_type::base_type;
 
    template <typename TraitsU, typename AllocU>
@@ -80,19 +73,24 @@ struct basic_string : std::basic_string<CharT,char_traits<CharT,SieveT>,AllocT> 
    } 
 };
 
-template<typename CharT, typename SieveT, typename AllocT, typename TraitsU, typename AllocU>
-constexpr bool operator==(const ascii::basic_string<CharT,SieveT,AllocT>& l, const std::basic_string<CharT,TraitsU,AllocU>& r) noexcept {
+template <typename CharT, typename Traits, typename ErrPolicy, typename Alloc>
+std::basic_ostream<CharT, Traits>& 
+operator<<(std::basic_ostream<CharT, Traits>& os, const basic_string<CharT,ErrPolicy,Alloc>& str ) {
+   return os << std::basic_string_view{str.data(),str.size()};
+}
+
+template<typename CharT, typename ErrPolicy, typename AllocT, typename TraitsU, typename AllocU>
+constexpr bool operator==(const ascii::basic_string<CharT,ErrPolicy,AllocT>& l, const std::basic_string<CharT,TraitsU,AllocU>& r) noexcept {
    return l.size()==r.size()? std::equal(l.data(),l.data()+l.size(),r.data()) : false;
 }
 
-template<typename CharT, typename SieveT, typename AllocT, typename TraitsU, typename AllocU>
-constexpr bool operator==(const std::basic_string<CharT,TraitsU,AllocU>& l, const ascii::basic_string<CharT,SieveT,AllocT>& r) noexcept {
+template<typename CharT, typename ErrPolicy, typename AllocT, typename TraitsU, typename AllocU>
+constexpr bool operator==(const std::basic_string<CharT,TraitsU,AllocU>& l, const ascii::basic_string<CharT,ErrPolicy,AllocT>& r) noexcept {
    return r==l;
 }
 
-
-using string  = basic_string<char>;
-using wstring = basic_string<wchar_t>;
+using string  = basic_string<char,err_exception<char>>;
+using wstring = basic_string<wchar_t,err_exception<wchar_t>>;
 
 }  // end namespace ascii
 
@@ -106,7 +104,12 @@ using wstring = basic_string<wchar_t>;
 
 using namespace std; 
 
-/*
+void test_01() {
+   const ascii::string s {"Hello, World!"};
+   assert(s=="Hello, World!");
+   const ascii::wstring s2 {L"Hello, World!"};
+   assert(s2==L"Hello, World!");
+}
 
 void test_01_err() {
    using my_string = ascii::basic_string<char,ascii::err_question_mark<char>>;
@@ -165,27 +168,15 @@ void test_05() {
    assert(s2 == foo() );
    assert(foo() == s2 );
 }
-*/
-
-void test_01() {
-   const ascii::string  s1 {"Hello, World!"};
-   assert(s1=="Hello, World!");
-   assert("Hello, World!"==s1);
-   const ascii::wstring s2 {L"Hello, World!"};
-   assert(s2==L"Hello, World!");
-   assert(L"Hello, World!"==s2);
-
-   const std::string  stds {"Hello, World!"};
-   const std::wstring stdw {L"Hello, World!"};
-   assert(stds == static_cast<std::string>(ascii::string{stds}) );
-   assert(static_cast<std::wstring>(ascii::wstring{stdw}) == stdw );
-   assert(stds == ascii::string{stds} );
-   assert(ascii::wstring{stdw} == stdw );
-}
 
 
 int main()
 {
    test_01();
+   test_01_err();
+   test_02();
+   test_03();
+   test_04();
+   test_05();
 }
 
