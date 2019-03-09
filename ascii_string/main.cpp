@@ -5,7 +5,7 @@
 #include <ostream>
 #include <string_view>
 #include <type_traits>
-
+#include <algorithm>
 #include <stdwarnings_suppress_off.h>
 
 namespace ascii
@@ -37,38 +37,41 @@ struct question_mark_substitution {
 template <typename CharT, typename ViolationHandlerT>
 struct basic_sieve {
    template <typename CharU>
-   constexpr void operator()(CharT& l, CharU&& r) const {
-      if(is_ascii(r))
+   constexpr void operator()(CharT& left, CharU&& right) const {
+      if(is_ascii(right))
          if constexpr (std::is_same_v<std::decay_t<CharT>,std::decay_t<CharU>>)
-            l=std::forward<CharU>(r);
+            left=std::forward<CharU>(right);
          else
-            l=static_cast<CharT>(r);
+            left=static_cast<CharT>(right);
       else
-         l=ViolationHandlerT{}(r);
+         left=ViolationHandlerT{}(right);
    } 
 };
 
 template <typename CharT, typename SieveT>
 struct char_traits : std::char_traits<CharT> {
    template <typename CharU>
-   static constexpr void assign( CharT& l, const CharU& r ) {
-      sieve_(l,r);
+   static constexpr void assign( CharT& left, const CharU& right ) {
+      sieve_(left,right);
    }
    template <typename CharU>
-   static constexpr void assign( CharT* dest, std::size_t count, const CharU& r ) {
-      for (std::size_t i{0}; i < count; ++i) 
-         sieve_(*dest++,r);
+   static constexpr void assign( CharT* dest, std::size_t count, const CharU& right ) {
+      std::for_each(dest,dest+count,[&](CharT& left){
+         sieve_(left,right);   
+      });
    }
    template <typename CharU>
    static constexpr CharT* copy( CharT* dest, const CharU* src, std::size_t count ) {
-      for (std::size_t i{0}; i < count; ++i)
-         sieve_(*dest++,src[i]);
+      std::for_each(dest,dest+count,[&](CharT& left){
+         sieve_(left,*src++);   
+      });
       return dest;
    }
    template <typename CharU>
    static constexpr CharT* move( CharT* dest, const CharU* src, std::size_t count ) {
-      for (std::size_t i{0}; i < count; ++i)
-         sieve_(*dest++,std::move(src[i]));
+      std::for_each(dest,dest+count,[&](CharT& left){
+         sieve_(left,std::move(*src++));   
+      });
       return dest;
    }
 private:
@@ -85,7 +88,7 @@ StrToT cast(const StrFtomT& s) {
 
 /*
 template<typename CharT, typename SieveT, typename AllocT, typename TraitsU, typename AllocU>
-constexpr bool operator==(const ascii::basic_string<CharT,SieveT,AllocT>& l, const std::basic_string<CharT,TraitsU,AllocU>& r) noexcept {
+constexpr bool operator==(const ascii::basic_string<CharT,SieveT,AllocT>& left, const std::basic_string<CharT,TraitsU,AllocU>& right) noexcept {
    return l.size()==r.size()? std::equal(l.data(),l.data()+l.size(),r.data()) : false;
 }
 
@@ -105,6 +108,9 @@ template <
    typename SieveT = sieve_question_mark<CharT>, 
    typename AllocT = std::allocator<CharT>>
 using basic_string = std::basic_string<CharT,char_traits<CharT,SieveT>,AllocT>;
+
+
+
 
 using string  = basic_string<char>;
 using wstring = basic_string<wchar_t>;
@@ -237,6 +243,25 @@ void test_04() {
    assert(cast<ascii::string> (std::wstring{L"Copyright symbol: '\xA9', Utf-16"}) == "Copyright symbol: '?', Utf-16");
 }
 
+void test_05() {
+   const std::string  s1 { "Hello, World!"};
+   const std::wstring s2 {L"Hello, World!"};
+
+   using ascii::cast;
+//   assert(cast<ascii::string> (s1) == s1);
+//   assert(cast<ascii::wstring>(s1) == s2);
+//   assert(cast<ascii::wstring>(s2) == s2);
+//   assert(cast<ascii::string> (s2) == s1);
+
+//   assert(s1 == cast<ascii::string> (s1));
+//   assert(s2 == cast<ascii::wstring>(s1));
+//   assert(s2 == cast<ascii::wstring>(s2));
+//   assert(s1 == cast<ascii::string> (s2));
+
+//   assert(cast<ascii::string> (std::string { "Copyright symbol: '\xB8'"})        == "Copyright symbol: '?'");
+//   assert(cast<ascii::string> (std::wstring{L"Copyright symbol: '\xA9', Utf-16"}) == "Copyright symbol: '?', Utf-16");
+}
+
 int main()
 {
    test_01();
@@ -244,5 +269,6 @@ int main()
    test_02a();
    test_03();
    test_04();
+   test_05();
 }
 
