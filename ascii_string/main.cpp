@@ -26,11 +26,11 @@ struct throw_exception {
    } 
 };
 
-template <typename CharT>
-struct question_mark_substitution {
+template <typename CharT, char Char>
+struct replacemen {
    template <typename CharU>
    constexpr CharT operator()(const CharU&) const noexcept {
-      return CharT{'?'};
+      return CharT{Char};
    } 
 };
 
@@ -87,13 +87,13 @@ StrToT cast(const StrFtomT& s) {
 } 
 
 template <typename CharT, typename ExceptionT = std::invalid_argument>
-using sieve_exception      = basic_sieve<CharT,throw_exception<CharT,ExceptionT>>;
-template <typename CharT>
-using sieve_question_mark  = basic_sieve<CharT,question_mark_substitution<CharT>>;
+using sieve_exception   = basic_sieve<CharT,throw_exception<CharT,ExceptionT>>;
+template <typename CharT, char Char = '?'>
+using sieve_replacement = basic_sieve<CharT,replacemen<CharT,Char>>;
 
 template <
    typename CharT, 
-   typename SieveT = sieve_question_mark<CharT>, 
+   typename SieveT = sieve_replacement<CharT>, 
    typename AllocT = std::allocator<CharT>>
 using basic_string = std::basic_string<CharT,char_traits<CharT,SieveT>,AllocT>;
 
@@ -116,25 +116,6 @@ using wstring = basic_string<wchar_t>;
 #include <stdwarnings_suppress_off.h>
 
 using namespace std; 
-
-/*
-
-void test_03() {
-   const ascii::wstring s1 {L"Hello"};
-   const ascii::wstring s2 {L"World!"};
-   assert(s1 + L", " + s2 ==L"Hello, World!");
-
-   try {
-      assert(s1 + L", " + s2 + wchar_t('\0x8F') ==L"Hello, World!");
-   }
-   catch(const exception& e) {
-      assert(string{"no ascii character"}==e.what());   
-      return;
-   }
-   assert(false);
-}
-
-*/
 
 void test_01() {
    assert(ascii::string { "Hello, World!"}== "Hello, World!");
@@ -170,6 +151,12 @@ void test_02a() {
       return;
    }
    assert(false);
+}
+
+void test_02b() {
+   using ascii_string = ascii::basic_string<char,ascii::sieve_replacement<char,'#'>>;
+   assert(ascii_string{"characters: '\xFF' and '\xAA'"} == "characters: '#' and '#'" );
+   assert(ascii_string(10,char(0xFF))=="##########");
 }
 
 void test_03() {
@@ -214,6 +201,7 @@ int main()
    test_01();
    test_02();
    test_02a();
+   test_02b();
    test_03();
    test_04();
    test_05();
