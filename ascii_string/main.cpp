@@ -86,18 +86,6 @@ StrToT cast(const StrFtomT& s) {
    return out;
 } 
 
-/*
-template<typename CharT, typename SieveT, typename AllocT, typename TraitsU, typename AllocU>
-constexpr bool operator==(const ascii::basic_string<CharT,SieveT,AllocT>& left, const std::basic_string<CharT,TraitsU,AllocU>& right) noexcept {
-   return l.size()==r.size()? std::equal(l.data(),l.data()+l.size(),r.data()) : false;
-}
-
-template<typename CharT, typename SieveT, typename AllocT, typename TraitsU, typename AllocU>
-constexpr bool operator==(const std::basic_string<CharT,TraitsU,AllocU>& l, const ascii::basic_string<CharT,SieveT,AllocT>& r) noexcept {
-   return r==l;
-}
-*/
-
 template <typename CharT, typename ExceptionT = std::invalid_argument>
 using sieve_exception      = basic_sieve<CharT,throw_exception<CharT,ExceptionT>>;
 template <typename CharT>
@@ -109,8 +97,10 @@ template <
    typename AllocT = std::allocator<CharT>>
 using basic_string = std::basic_string<CharT,char_traits<CharT,SieveT>,AllocT>;
 
-
-
+template<typename CharT, typename TraitsT, typename SieveT, typename AllocT>
+std::basic_ostream<CharT,TraitsT>& operator<<(std::basic_ostream<CharT,TraitsT>& os, const basic_string<CharT,SieveT,AllocT> s) {
+   return os.write(s.data(),s.size());
+}
 
 using string  = basic_string<char>;
 using wstring = basic_string<wchar_t>;
@@ -129,27 +119,6 @@ using namespace std;
 
 /*
 
-void test_01_err() {
-   using my_string = ascii::basic_string<char,ascii::err_question_mark<char>>;
-   const my_string s{"Hello, World!\217"};
-   assert(s=="Hello, World!?");
-
-   try {
-      const ascii::string wrong {"Hello, World!\217"};
-   }
-   catch(const exception& e) {
-      assert(string{"no ascii character"}==e.what());   
-      return;
-   }
-   assert(false);
-}
-
-void test_02() {
-   const ascii::string s1 {"Hello"};
-   const ascii::string s2 {"World!"};
-   assert(s1 + ", " + s2 =="Hello, World!");
-}
-
 void test_03() {
    const ascii::wstring s1 {L"Hello"};
    const ascii::wstring s2 {L"World!"};
@@ -165,27 +134,6 @@ void test_03() {
    assert(false);
 }
 
-void test_04() {
-   const ascii::string s {"Hello, World!"};
-   stringstream ss;
-   ss << s;
-   assert(ss.str() =="Hello, World!");
-}
-
-string foo() {
-   return "nikola";
-}
-
-
-void test_05() {
-   const std::string s1 = foo();
-   const ascii::string s2 = s1;
-   const std::string s3 = s2;
-
-   assert(static_cast<std::string>(s2) == foo() );
-   assert(s2 == foo() );
-   assert(foo() == s2 );
-}
 */
 
 void test_01() {
@@ -244,22 +192,21 @@ void test_04() {
 }
 
 void test_05() {
-   const std::string  s1 { "Hello, World!"};
-   const std::wstring s2 {L"Hello, World!"};
-
-   using ascii::cast;
-//   assert(cast<ascii::string> (s1) == s1);
-//   assert(cast<ascii::wstring>(s1) == s2);
-//   assert(cast<ascii::wstring>(s2) == s2);
-//   assert(cast<ascii::string> (s2) == s1);
-
-//   assert(s1 == cast<ascii::string> (s1));
-//   assert(s2 == cast<ascii::wstring>(s1));
-//   assert(s2 == cast<ascii::wstring>(s2));
-//   assert(s1 == cast<ascii::string> (s2));
-
-//   assert(cast<ascii::string> (std::string { "Copyright symbol: '\xB8'"})        == "Copyright symbol: '?'");
-//   assert(cast<ascii::string> (std::wstring{L"Copyright symbol: '\xA9', Utf-16"}) == "Copyright symbol: '?', Utf-16");
+   {
+      stringstream ss;
+      ss << ascii::string{"Hello, World!"};
+      assert(ss.str() =="Hello, World!");
+   }
+   {
+      wstringstream ss;
+      ss << ascii::wstring{L"Hello, World!"};
+      assert(ss.str() == L"Hello, World!");
+   }
+   {
+      stringstream ss;
+      ss << ascii::string{"characters: '\xFF' and '\xAA'"};
+      assert(ss.str() == "characters: '?' and '?'");
+   }
 }
 
 int main()
