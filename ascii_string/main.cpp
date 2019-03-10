@@ -97,6 +97,18 @@ template <
    typename AllocT = std::allocator<CharT>>
 using basic_string = std::basic_string<CharT,char_traits<CharT,SieveT>,AllocT>;
 
+template <typename CharT, typename SieveT, typename AllocT, typename TraitsT>
+void swap(ascii::basic_string<CharT,SieveT,AllocT>& left, std::basic_string<CharT,TraitsT,AllocT>& right) noexcept {
+   static_assert(sizeof(left)==sizeof(right));
+   auto p = (std::basic_string<CharT,TraitsT,AllocT>*)(void*)&left;
+   right.swap(*p);
+}
+
+template <typename CharT, typename SieveT, typename AllocT, typename TraitsT>
+void swap(std::basic_string<CharT,TraitsT,AllocT>& left, ascii::basic_string<CharT,SieveT,AllocT>& right) noexcept {
+   swap(right,left);
+}
+
 template<typename CharT, typename TraitsT, typename SieveT, typename AllocT>
 std::basic_ostream<CharT,TraitsT>& operator<<(std::basic_ostream<CharT,TraitsT>& os, const basic_string<CharT,SieveT,AllocT> s) {
    return os.write(s.data(),s.size());
@@ -196,6 +208,17 @@ void test_05() {
    }
 }
 
+void test_06() {
+   ascii::string s1 {"C++ protects against accident, not against fraud"};
+   std::string s2 {"Bjarne Stroustrup"};
+   swap(s1,s2);
+   assert("Bjarne Stroustrup"==s1);
+   assert("C++ protects against accident, not against fraud"==s2);
+   swap(s2,s1);
+   assert("Bjarne Stroustrup"==s2);
+   assert("C++ protects against accident, not against fraud"==s1);
+}
+
 int main()
 {
    test_01();
@@ -205,5 +228,6 @@ int main()
    test_03();
    test_04();
    test_05();
+   test_06();
 }
 
