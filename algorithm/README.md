@@ -5,6 +5,7 @@ In some situations, the existing STL algorithms are not enough. But nothing hind
 * [for_each_permutation](./for_each_permutation) generates all possible permutations of input sequence and applies user-defined function object to each of them. 
 * [the greatest common divisor](./gcd) for ranges.  
 * [insert_sorted](./insert_sorted) inserts an element into previously sorted sequence container to preserve its order. 
+* [min & max](https://github.com/nikolaAV/Modern-Cpp/tree/master/constexpr/min_max) accepting any number of arguments. 
 * [regex_for_each](./regex_for_each) calls the callable object for each match in input character sequence that meets the specified [regular expression](https://en.wikipedia.org/wiki/Regular_expression).
 * [simple_xor](./simple_xor) STL-like implementation of the simple XOR cipher ([a type of additive cipher](https://en.wikipedia.org/wiki/XOR_cipher) in cryptography).
 * [split & split_if](./split) To split __any__ (not only strings) range of items at each occurrence of a specific value, and it copies the chunks that result from that into an output range.
