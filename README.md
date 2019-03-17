@@ -2,6 +2,7 @@
 contains set of outlines (complete projects to be used) based on well known design patterns or C++ idioms  
 
 * [algorithms](./algorithm) In some situations, the existing STL algorithms are not enough. But nothing hinders us from implementing our own.
+* [Sequence of ASCII characters](./ascii_string) C++ string type for managing characters with codes in the range [0,128) called 7-bit [ASCII Chart Table](https://en.cppreference.com/w/cpp/language/ascii).
 * [charsets conversions](./cast_charset) It provides transformation std::strings (C-strings i.e. zero terminated) of __fixed__ charsets (US-ASCII, ISO-LAtin-1, ISO-LAtin-9) into wstrings (UCS-2, UCS-4) and vice versa.
 * [pointer_cast](./cast_pointer) Safe & Portable with compile-time support pointer converting to any type into integer representation.
 * [string representation of integral types](./cast_string) `std::stringstream` based technique to convert strings to numbers and vice versa.
