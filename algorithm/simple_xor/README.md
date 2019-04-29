@@ -96,6 +96,7 @@ In addition to this combination of possible 'simple_xor' signatures (5\*5\*4=100
 ## Related links
 * [compile time checks](../../iterator_traits2) for categories of iterators
 * [Overloading by means std::enable_if](https://github.com/nikolaAV/Modern-Cpp/tree/master/concept%20(pceudo)/enable_if_overloading)
+* [Modern C++ Detection Idiom](https://github.com/nikolaAV/Modern-Cpp/tree/master/concept%20(pceudo)/detection_idiom)
 * [back to algorithm](../)
 
 ## Compilers
