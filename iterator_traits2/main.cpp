@@ -1,6 +1,10 @@
 #include <type_traits>
 #include <iterator>
 
+/**
+   \see https://github.com/nikolaAV/skeleton/tree/master/iterator_traits2
+*/
+
 namespace iterators
 {
    template <typename T>
