@@ -96,6 +96,7 @@ struct is_forward_iterator ...
 * [simple_xor](../algorithm/simple_xor), the impressive set of overloads
 * [Modern C++ Detection Idiom](https://github.com/nikolaAV/Modern-Cpp/tree/master/concept%20(pceudo)/detection_idiom)
 * [std::conditional. "Suppressing" 'false' branch compile time evaluation.](https://github.com/nikolaAV/Modern-Cpp/tree/master/traits/if-then-else)
+* ['is_nothrow_move_constructible' trait by our own hands](https://github.com/nikolaAV/Modern-Cpp/tree/master/traits/is_nothrow_move_constructible)
 
 ## Compilers
 * [GCC 8.1.0](https://wandbox.org/)
