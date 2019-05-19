@@ -47,6 +47,7 @@ Usage example for split_if:
 * [How to split a string in C++](http://www.martinbroadhurst.com/how-to-split-a-string-in-c.html) by Martin Broadhurst
 
 ## Related links
+* [based on std::string_view](../split2)  
 [back to algorithm](../)
 
 ## Compilers
