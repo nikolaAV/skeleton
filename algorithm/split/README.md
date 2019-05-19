@@ -48,6 +48,7 @@ Usage example for split_if:
 
 ## Related links
 * [based on std::string_view](../split2)  
+
 [back to algorithm](../)
 
 ## Compilers
