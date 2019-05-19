@@ -13,6 +13,8 @@ Usage example for split:
 * [How to split a string in C++](http://www.martinbroadhurst.com/how-to-split-a-string-in-c.html) by Martin Broadhurst
 
 ## Related links
+* [std::transform variation](../split)
+
 [back to algorithm](../)
 
 ## Compilers
