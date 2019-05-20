@@ -8,7 +8,7 @@ UnaryOperation split(StringView s, StringView delim, UnaryOperation op)
 where 
 * s - the range `std::string_view` sequential characters to apply the function to
 * delim - the range `std::string_view` sequential characters specifying boundary marker
-* op - 	function object, to be applied to each occurrence separated by the boundary marker
+* op - 	function object, to be applied to each occurrence separated by the boundary marker. The signature of UnaryOperation should be equivalent to the following: `void func(StringView)`
 
 Usage example for split:
 ```cpp
