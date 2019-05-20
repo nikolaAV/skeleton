@@ -6,6 +6,11 @@
 	The interface is very similar to std::for_each where an user-defined function object
 	is to apply to every sequence of characters which are enclosed within specified delimeters - another sequence of characters.
 
+	\param s - the range std::string_view sequential characters to apply the function to
+	\param delim - the range std::string_view sequential characters specifying boundary marker
+	\param op - function object, to be applied to each occurrence separated by the boundary marker. 
+		The signature of UnaryOperation should be equivalent to the following: void func(StringView)
+
 	\see https://github.com/nikolaAV/skeleton/tree/master/algorithm/split2
 */
 
