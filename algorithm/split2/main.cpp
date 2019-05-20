@@ -2,7 +2,9 @@
 #include <utility>
 
 /**
-	TBD
+	This function moves a std::string_view slider between delimiter markers without any unnecessary copies or data modifications.
+	The interface is very similar to std::for_each where an user-defined function object
+	is to apply to every sequence of characters which are enclosed within specified delimeters - another sequence of characters.
 
 	\see https://github.com/nikolaAV/skeleton/tree/master/algorithm/split2
 */
