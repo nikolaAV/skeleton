@@ -18,7 +18,7 @@ namespace details
 {
 
 template <typename UnaryOperation, typename CharT, typename Traits = std::char_traits<CharT> >
-UnaryOperation split(std::basic_string_view<CharT,Traits> s, std::basic_string_view<CharT,Traits> delim, UnaryOperation op)
+UnaryOperation& split(std::basic_string_view<CharT,Traits> s, std::basic_string_view<CharT,Traits> delim, UnaryOperation& op)
       noexcept( noexcept(op(std::basic_string_view<CharT,Traits>{})) )
 {
    using sv = std::basic_string_view<CharT,Traits>;
@@ -33,7 +33,7 @@ UnaryOperation split(std::basic_string_view<CharT,Traits> s, std::basic_string_v
 }
 
 template <typename UnaryOperation, typename StringView>
-UnaryOperation split(StringView s, StringView delim, UnaryOperation op)
+UnaryOperation& split(StringView s, StringView delim, UnaryOperation& op)
 {
    using CharT  = typename StringView::value_type;
    using Traits = typename StringView::traits_type;
@@ -118,10 +118,42 @@ void test4()
    assert(!out.has_value());
 }
 
+using int_slider = basic_string_view<int>;
+
+template <typename UnaryOperation>
+UnaryOperation split(int_slider s, int_slider delim, UnaryOperation op)
+{
+   return details::split<UnaryOperation,decltype(s)>(s,delim,op);
+}
+
+void test5()
+{
+   const auto magic_digits = {
+      0,1,2,3,
+      0,0,0,    // <--- delimiter
+      4,
+      0,0,0,
+      5,6,7,8,9,
+      0,0,0
+   };
+   const auto delimeter = {0,0,0};
+
+   vector<int> out;
+   split(
+       int_slider{magic_digits.begin(),magic_digits.size()}
+      ,int_slider{delimeter.begin(),   delimeter.size()}
+      ,[&out](auto s){
+            for(auto i:s)
+               out.push_back(i); 
+   });
+   assert((vector{0,1,2,3,4,5,6,7,8,9})==out);
+}
+
 int main()
 {
    test1();
    test2();
    test3();
    test4();
+   test5();
 }
