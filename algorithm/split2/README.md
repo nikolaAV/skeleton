@@ -27,6 +27,7 @@ Usage example for split:
 ## Further informations
 * [How to split a string in C++](https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/) by Jonathan Boccara
 * [How to split a string in C++](http://www.martinbroadhurst.com/how-to-split-a-string-in-c.html) by Martin Broadhurst
+* [Parse a string in C++ using string delimiter](https://stackoverflow.com/questions/14265581/parse-split-a-string-in-c-using-string-delimiter-standard-c) on stackoverflow
 
 ## Related links
 * [std::transform variation](../split)
