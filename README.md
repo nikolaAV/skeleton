@@ -19,3 +19,4 @@ contains set of outlines (complete projects to be used) based on well known desi
 * [type safe prinf](./type%20safe%20printf) At compile time variable type deduction to be printed by __'printf("% % %", 1, "2", 3.)'__
 * [Unit Test Project Template](./unit_test_substrate) A ready to be used Unit Test Machine based on [TUT framework](http://mrzechonek.github.io/tut-framework/).
 * [User Defined & system errors](.user_extensible_error) An easy way to integrate own errors into [the standard system errors](https://en.cppreference.com/w/cpp/header/system_error). 
+* [URL Reader](./url_reader) The very easy way to get a content a web page by specified URL. (Windows only)
