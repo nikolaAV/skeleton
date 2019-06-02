@@ -2,5 +2,9 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ms_url_moniker.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ms_url_moniker.h" />
   </ItemGroup>
 </Project>
