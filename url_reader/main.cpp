@@ -1,30 +1,38 @@
-//#include "stdwarnings_suppress_on.h"
 #include <sstream>
 #include <iostream>
+#include <fstream>
 #include "ms_url_moniker.h"
-//#include "stdwarnings_suppress_off.h"
 
-
-class web_page_stream {
-   ms_urlmon::blocking_stream wrap_;
+class urlstream {
+   ms_urlmon::blocking_stream impl_;
 
    template <size_t N>
    unsigned long read(char(& buff)[N]) {
       unsigned long bytes_read{};
-      return wrap_.read(buff, N, bytes_read);
+      return impl_.read(buff, N, bytes_read);
    }
 
 public:
    explicit 
-   web_page_stream(std::string_view url) : wrap_(url) {}
+   urlstream(std::string_view url) : impl_(url) {} // can throw std::runtime_error
 
-   template <size_t buffer_size, typename OtherStream>
-   void read(OtherStream& out) {
+   /**
+      \param 'buffer_size' data from the Internet is read by predefined portions where capacity is specified in the number of bytes
+      \OtherOutputStream any type which is compliant to std::basic_ostream
+   */
+   template <size_t buffer_size, typename OtherOutputStream>
+   OtherOutputStream& read(OtherOutputStream& out) {
       char buff[buffer_size] = {};   
       for(auto bytes_read = read(buff); bytes_read > 0U; bytes_read = read(buff))
          out.write(buff, static_cast<std::streamsize>(bytes_read));
+      return out;
    }
 };
+
+template <typename CharT, typename Traits>
+std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>& out, urlstream&& in) {
+   return in.read<1024>(out);
+}
 
 using namespace std; 
 
@@ -32,16 +40,18 @@ int main()
 {
    try
    {
-      web_page_stream wps {"https://isocpp.org/about"};
-
-      stringstream ss;
-      wps.read<100>(ss);
-
-      cout << ss.str() << endl;
+      {
+         stringstream ss;
+         ss << urlstream{"https://isocpp.org/about"};
+         cout << ss.str() << endl;
+      }
+      {
+         fstream f{"japanese_web_page.html", ios_base::out|ios_base::binary|ios_base::trunc};
+         f << urlstream{ "https://ja.cppreference.com/" };
+      }
    }
    catch(const exception& e)
    {
       cout << e.what() << endl;
    }
-   cin.get();
 }
