@@ -23,7 +23,7 @@ match(v,
 );
 ```
 ### Example
-Let's suppose there is a [heterogeneous collection](https://github.com/nikolaAV/Modern-Cpp/tree/master/variant/heterogeneous_container) of geometrical figures we are asked to program total area computation  of them. 
+Let's suppose there is a [heterogeneous collection](https://github.com/nikolaAV/Modern-Cpp/tree/master/variant/heterogeneous_container) of geometrical figures and we are asked to program total area computation  of them. 
 We are restricted that the figures design come from outside and is not allowed to make any modification into it like adding 'area' function-member. 
 Thanks to __match__ a solution may be very easy.  
 ```cpp
