@@ -12,7 +12,7 @@ auto match(Variant&& v, Matcher&&... ms) {
 [`details_::overloaded`(aka The overload Pattern)](https://www.bfilipek.com/2019/02/2lines3featuresoverload.html) allows us to write a lambda as a handler for each type which can be stored in [std::variant](https://en.cppreference.com/w/cpp/utility/variant), 
 almost like [pattern matching](https://en.wikipedia.org/wiki/Pattern_matching) - a nice language feature which already exists in various other languages like [Scala](https://docs.scala-lang.org/tour/pattern-matching.html) or [Rust](https://doc.rust-lang.org/1.8.0/book/patterns.html), and is a core building block in most functional languages (e.g. [Haskell](https://www.haskell.org/tutorial/patterns.html)). 
 As of today, we can only emulate pattern matching in C++ using [libraries](https://github.com/mpark/patterns), but there are already proposals on the way to add this as a native language feature in the future ([P1371](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1371r0.pdf), [P1260](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1260r0.pdf)). 
-The function __match__ is a little wrapper around the `overloaded` helper mentioned above, which doesn’t do much except for saving a little bit efforts of typing, and putting the variant argument first instead of last. 
+The function __match__ is a little wrapper around the `overloaded` helper mentioned above, which doesnâ€™t do much except for saving a little bit efforts of typing, and putting the variant argument first instead of last. 
 So that we are able to write code like that
 ```cpp
 std::variant<T1,T2,T3> v {...};
@@ -38,7 +38,7 @@ accumulate(begin(c),end(c),0.,	    // <--- 'c' is a shape collection
 		   );
     }
 );
-```cpp
+```
 ![pattern_matching](https://www.walletfox.com/course/cheatsheetsSource/pattern_matching_classes_cheatsheet-compressor.png)
 
 ## Further informations
