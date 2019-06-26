@@ -136,7 +136,7 @@ Although variants #2, #3 have the same signature they are included/excluded from
 * [`constexpr` Lambda Expressions](https://github.com/nikolaAV/Modern-Cpp/tree/master/lambda/lambda_constexpr)
 * [`switch` statement accepting strings](../../switch_string)
 * [simple XOR](../simple_xor) another example of function template overload resolution that have the same signatures 
-[back to algorithm](../)
+* [back to algorithm](../)
 
 ## Compilers
 * [GCC 8.1.0](https://wandbox.org/)
