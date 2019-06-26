@@ -36,6 +36,7 @@ If a collision occurs, it will be detected at compile-time and the compiler will
 
 ## Related links
 * [Other examples of compile time computing](https://github.com/nikolaAV/Modern-Cpp/blob/master/constexpr)
+* [Fowler-Noll-Vo Hash Function](https://github.com/nikolaAV/skeleton/tree/master/algorithm/hash_fnv1a_32)
 
 ## Compilers
 * [GCC 8.1.0](https://wandbox.org/)
