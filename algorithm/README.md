@@ -3,7 +3,8 @@ In some situations, [the existing STL algorithms](https://en.cppreference.com/w/
 * [find_all & find_all_if](./find_all) Finds all the elements matching a predicate in a given range. The result is iterators referring to requested elements in the range.
 * [find_and_replace](./find_and_replace) Find and Replace All Occurrences in a C++ String: `string`, `wstring`, `u16string`, `u32string`.
 * [for_each_permutation](./for_each_permutation) generates all possible permutations of input sequence and applies user-defined function object to each of them. 
-* [the greatest common divisor](./gcd) for ranges.  
+* [the greatest common divisor](./gcd) for ranges.
+* [FNV-1/FNV-1a hash](./hash_fnv1a_32) for vary input data, any types, any containters, any streams, etc. 
 * [insert_sorted](./insert_sorted) inserts an element into previously sorted sequence container to preserve its order. 
 * [min & max](https://github.com/nikolaAV/Modern-Cpp/tree/master/constexpr/min_max) accepting any number of arguments. 
 * [regex_for_each](./regex_for_each) calls the callable object for each match in input character sequence that meets the specified [regular expression](https://en.wikipedia.org/wiki/Regular_expression).
