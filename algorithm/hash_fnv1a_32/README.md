@@ -124,16 +124,17 @@ constexpr uint32_t hash(const T& value) noexcept;
 ```
 * first, last	-	the range [first,last) of elements to compute the hash. InputIt must meet the requirements of [LegacyInputIterator](https://en.cppreference.com/w/cpp/named_req/InputIterator).
 * range	-	shorter term of [first,last). Range must meet the requirements of [`std::ranges::Range`](https://en.cppreference.com/w/cpp/ranges/Range)
-* value	-	an instance of any type for which a hash is supposed to compute. Please note T should be [POD](https://en.cppreference.com/w/cpp/named_req/PODType) type. Otherwise you can get a hash you don't want to.  
+* value	-	an instance of any type for which a hash is supposed to compute. Please note T should be [POD](https://en.cppreference.com/w/cpp/named_req/PODType) type. Otherwise you can get a hash you don't want to expect.  
 
 Although variants #2, #3 have the same signature they are included/excluded from [overload resolution](https://en.cppreference.com/w/cpp/language/overload_resolution) by means a condition provided by type traits technique [`std::enable_if`](https://en.cppreference.com/w/cpp/types/enable_if).
 ## Further informations
 * [Fowler-Noll-Vo Hash (FNV1a)](https://create.stephan-brumme.com/fnv-hash/) by Stephan Brumme
-* [Fowler–Noll–Vo hash function](https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function) on wikipedia 
+* [Fowlerâ€“Nollâ€“Vo hash function](https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function) on wikipedia 
+* [FNV Hash](http://www.isthe.com/chongo/tech/comp/fnv/) official site
 
 ## Related links
 * [`constexpr` Lambda Expressions](https://github.com/nikolaAV/Modern-Cpp/tree/master/lambda/lambda_constexpr)
-* [`switch` statement accepting strings](../switch_string)
+* [`switch` statement accepting strings](../../switch_string)
 * [simple XOR](../simple_xor) another example of function template overload resolution that have the same signatures 
 [back to algorithm](../)
 
