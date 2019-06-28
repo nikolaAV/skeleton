@@ -53,8 +53,8 @@ bool operator==(const iterator<Ts...>& left, const iterator<Ts...>& right) noexc
 }         
 
 template <typename... Ts>
-struct pack : std::tuple<Ts&...> {
-   pack(Ts&... ts) : std::tuple<Ts&...>(ts...) {}
+struct tuple : std::tuple<Ts&...> {
+   tuple(Ts&... ts) : std::tuple<Ts&...>(ts...) {}
 };
 
 template <typename... Ts>
@@ -63,12 +63,12 @@ auto begin(Ts&... ts) {
 };
 
 template <typename... Ts, size_t... Idx>
-auto begin(pack<Ts...> p, std::index_sequence<Idx...>) {
+auto begin(tuple<Ts...> p, std::index_sequence<Idx...>) {
    return begin(std::get<Idx>(p)...);
 };
 
 template <typename... Ts>
-auto begin(pack<Ts...> p) {
+auto begin(tuple<Ts...> p) {
    return begin(p,std::make_index_sequence<sizeof...(Ts)>());
 };
 
@@ -78,12 +78,12 @@ auto end(Ts&... ts) {
 };
 
 template <typename... Ts, size_t... Idx>
-auto end(pack<Ts...> p, std::index_sequence<Idx...>) {
+auto end(tuple<Ts...> p, std::index_sequence<Idx...>) {
    return end(std::get<Idx>(p)...);
 };
 
 template <typename... Ts>
-auto end(pack<Ts...> p) {
+auto end(tuple<Ts...> p) {
    return end(p, std::make_index_sequence<sizeof...(Ts)>());
 };
 
@@ -111,7 +111,7 @@ int main()
       vector v1 {1,2,3,4};
       vector v2 {.1,.2,.3};
 
-      zip::pack p{ v1,v2 };
+      zip::tuple p{ v1,v2 };
 
       zip::begin(p);
       zip::end(v1, v2);
@@ -122,7 +122,7 @@ int main()
          cout << get<0>(*i) << " "<< get<1>(*i) << endl;
       }
 
-      for_each(begin(p),end(p),[](const auto& pair){
+      for_each(zip::begin(p), zip::end(p),[](const auto& pair){
          cout << get<0>(pair) << " " << get<1>(pair) << endl;
       });
    }
