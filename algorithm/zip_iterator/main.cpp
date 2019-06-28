@@ -7,10 +7,22 @@
 namespace zip
 {
 template <typename... Ts>
-struct iterator : std::tuple<Ts...> {
+class iterator {
+   std::tuple<Ts...> ts_;
+
+   template <size_t... Idx>
+   void increment(std::index_sequence<Idx...>) {
+      (std::get<Idx>(ts_)++, ...);
+   }
+   template <size_t... Idx>
+   auto values(std::index_sequence<Idx...>) const {
+      return std::tuple{ *std::get<Idx>(ts_)... };
+   }
+
+public:
    static constexpr auto indices = std::make_index_sequence<sizeof...(Ts)>();
 
-   iterator(Ts... ts) : std::tuple<Ts...>(ts...) {}
+   iterator(Ts... ts) noexcept : ts_(ts...) {}
    iterator& operator++() {
       increment(indices);
       return *this;
@@ -18,15 +30,8 @@ struct iterator : std::tuple<Ts...> {
    auto operator*() const {
       return values(indices);
    }
-
-private:
-   template <size_t... Idx>
-   void increment(std::index_sequence<Idx...>) {
-      (std::get<Idx>(*this)++ , ...);
-   }
-   template <size_t... Idx>
-   auto values(std::index_sequence<Idx...>) const {
-      return std::tuple{*std::get<Idx>(*this)...};
+   auto tuple() const noexcept {
+      return ts_;
    }
 };
 
@@ -39,7 +44,7 @@ struct std::iterator_traits<iterator<Ts...>> {
 
 template <typename... Ts, size_t... Idx>
 bool not_equal(const iterator<Ts...>& left, const iterator<Ts...>& right, std::index_sequence<Idx...>) noexcept {
-   return ((std::get<Idx>(left) != std::get<Idx>(right)) && ...);
+   return ((std::get<Idx>(left.tuple()) != std::get<Idx>(right.tuple())) && ...);
 }
 
 template <typename... Ts>
@@ -54,11 +59,11 @@ bool operator==(const iterator<Ts...>& left, const iterator<Ts...>& right) noexc
 
 template <typename... Ts>
 struct tuple : std::tuple<Ts&...> {
-   tuple(Ts&... ts) : std::tuple<Ts&...>(ts...) {}
+   tuple(Ts&... ts) noexcept : std::tuple<Ts&...>(ts...) {}
 };
 
 template <typename... Ts>
-auto begin(Ts&... ts) {
+auto begin(Ts&... ts) noexcept {
    return iterator{ std::begin(ts)... };
 };
 
@@ -73,7 +78,7 @@ auto begin(tuple<Ts...> p) {
 };
 
 template <typename... Ts>
-auto end(Ts&... ts) {
+auto end(Ts&... ts) noexcept {
    return iterator{ std::end(ts)... };
 };
 
@@ -111,7 +116,7 @@ int main()
       vector v1 {1,2,3,4};
       vector v2 {.1,.2,.3};
 
-      zip::tuple p{ v1,v2 };
+      const zip::tuple p{ v1,v2 };
 
       zip::begin(p);
       zip::end(v1, v2);
