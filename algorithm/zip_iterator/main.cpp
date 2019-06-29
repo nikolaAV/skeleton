@@ -6,9 +6,20 @@
 
 namespace zip
 {
+/**
+   tuple of references to the specified containers
+*/
+template <typename... Ts>
+struct tuple : std::tuple<Ts&...> {
+   tuple(Ts&... ts) noexcept : std::tuple<Ts&...>(ts...) {}
+};
+
+/**
+   tuple of iterators to the specified containers in order
+*/
 template <typename... Ts>
 class iterator {
-   std::tuple<Ts...> ts_;
+   std::tuple<Ts...> ts_; // tuple of iterators
 
    template <size_t... Idx>
    void increment(std::index_sequence<Idx...>) {
@@ -16,14 +27,13 @@ class iterator {
    }
    template <size_t... Idx>
    auto values(std::index_sequence<Idx...>) const {
-      return std::tuple{ *std::get<Idx>(ts_)... };
+      return std::tuple<decltype(*std::get<Idx>(ts_))...>{ *std::get<Idx>(ts_)... };
    }
-
 
 public:
    static constexpr auto indices = std::make_index_sequence<sizeof...(Ts)>();
 
-   iterator(Ts... ts) noexcept : ts_(ts...) {}
+   explicit iterator(Ts... ts) noexcept : ts_(ts...) {}
    iterator& operator++() {
       increment(indices);
       return *this;
@@ -34,13 +44,6 @@ public:
    auto tuple() const noexcept {
       return ts_;
    }
-};
-
-template <typename... Ts>
-struct std::iterator_traits<iterator<Ts...>> {
-   using iterator_category = std::forward_iterator_tag;
-   using difference_type = long;
-   using value_type = std::tuple<Ts...>;
 };
 
 template <typename... Ts, size_t... Idx>
@@ -60,40 +63,45 @@ bool operator==(const iterator<Ts...>& left, const iterator<Ts...>& right) noexc
 }         
 
 template <typename... Ts>
-struct tuple : std::tuple<Ts&...> {
-   tuple(Ts&... ts) noexcept : std::tuple<Ts&...>(ts...) {}
-};
-
-template <typename... Ts>
 auto begin(Ts&... ts) noexcept {
    return iterator{ std::begin(ts)... };
-};
+}
 
 template <typename... Ts, size_t... Idx>
 auto begin(tuple<Ts...> p, std::index_sequence<Idx...>) {
    return begin(std::get<Idx>(p)...);
-};
+}
 
 template <typename... Ts>
 auto begin(tuple<Ts...> p) {
    return begin(p,std::make_index_sequence<sizeof...(Ts)>());
-};
+}
 
 template <typename... Ts>
 auto end(Ts&... ts) noexcept {
    return iterator{ std::end(ts)... };
-};
+}
 
 template <typename... Ts, size_t... Idx>
 auto end(tuple<Ts...> p, std::index_sequence<Idx...>) {
    return end(std::get<Idx>(p)...);
-};
+}
 
 template <typename... Ts>
 auto end(tuple<Ts...> p) {
    return end(p, std::make_index_sequence<sizeof...(Ts)>());
-};
+}
 
+}  // end of namespace zip
+
+namespace std
+{
+   template <typename... Ts>
+   struct iterator_traits<zip::iterator<Ts...>> {
+      using iterator_category = std::forward_iterator_tag;
+      using difference_type = long;
+      using value_type = std::tuple<Ts...>;
+   };
 }  // end of namespace zip
 
 
@@ -142,6 +150,23 @@ int main()
       for_each(zip::begin(l1,l2,l3), zip::end(l1,l2,l3), [](const auto& element) {
          cout << get<0>(element) << "," << get<1>(element) << "," << get<2>(element) << endl;
       });
+   }
+
+   {
+      vector v1{ 0,1,2,3,4 };
+      vector v2{ 9,8,7,6,5 };
+
+      int* p_one = &v1[1]; 
+      cout << v1[1] << " <-> " << *p_one << endl;
+
+//      swap(v1,v2);
+//      cout << v1[1] << " <-> " << *p_one << endl;
+
+      for_each(zip::begin(v1, v2), zip::end(v1, v2), [](const auto& element) {
+         std::swap(get<0>(element), get<1>(element));
+      });
+
+      cout << v1[1] << " <-> " << *p_one << endl;
    }
 
    cin.get();
