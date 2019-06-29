@@ -26,6 +26,7 @@
    \endcode
 
    \see https://www.boost.org/doc/libs/1_41_0/libs/iterator/doc/zip_iterator.html
+        https://github.com/nikolaAV/skeleton/tree/master/algorithm/zip_iterator
 */
 
 namespace zip
