@@ -126,7 +126,7 @@ namespace std
       using difference_type = long;
       using value_type = std::tuple<Ts...>;
    };
-}  // end of namespace zip
+}  // end of namespace std
 
 
 #endif // _ZIP_ITERATOR_H__

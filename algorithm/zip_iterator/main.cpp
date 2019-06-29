@@ -7,6 +7,7 @@
 #include <set>
 #include <deque>
 #include <list>
+#include <numeric>
 
 #include "zip_iterator.h"
 
@@ -74,8 +75,16 @@ int main()
       for(auto&& [_1,_2,_3,_4]:zip::tuple{c1,c2,c3,c4}) {
          cout << _1*_2*_3*_4 << endl;
       }
-
    }
+   {
+      double a[] {1.,2.,3.};
+      double b[]{ 4.,5.,6. };
+      auto sum = accumulate(zip::begin(a,b), zip::end(a,b),0.,[](auto s, auto v){
+         return s + get<0>(v)*get<1>(v);
+      });
+      cout << sum << endl;
+   }
+
 
    cin.get();
 }
