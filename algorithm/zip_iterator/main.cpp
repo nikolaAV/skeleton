@@ -19,6 +19,7 @@ class iterator {
       return std::tuple{ *std::get<Idx>(ts_)... };
    }
 
+
 public:
    static constexpr auto indices = std::make_index_sequence<sizeof...(Ts)>();
 
@@ -43,13 +44,14 @@ struct std::iterator_traits<iterator<Ts...>> {
 };
 
 template <typename... Ts, size_t... Idx>
-bool not_equal(const iterator<Ts...>& left, const iterator<Ts...>& right, std::index_sequence<Idx...>) noexcept {
+bool is_different(const iterator<Ts...>& left, const iterator<Ts...>& right, std::index_sequence<Idx...>) noexcept {
    return ((std::get<Idx>(left.tuple()) != std::get<Idx>(right.tuple())) && ...);
 }
 
 template <typename... Ts>
 bool operator!=(const iterator<Ts...>& left, const iterator<Ts...>& right) noexcept {
-   return not_equal(left,right,left.indices);
+   static_assert(left.indices.size== right.indices.size);
+   return is_different(left,right,left.indices);
 }
 
 template <typename... Ts>
