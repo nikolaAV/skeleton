@@ -1,4 +1,4 @@
-In some situations, [the existing STL algorithms](https://en.cppreference.com/w/cpp/algorithm) are not enough, even including [new C++ Library features](https://github.com/nikolaAV/Modern-Cpp/tree/master/stl). But nothing hinders us from implementing our own.
+In some situations, [the existing STL algorithms](https://en.cppreference.com/w/cpp/algorithm) (see also [algorithms catalogue](http://www.fluentcpp.com/STL/)) are not enough, even including [new C++ Library features](https://github.com/nikolaAV/Modern-Cpp/tree/master/stl). But nothing hinders us from implementing our own.
 
 * [find_all & find_all_if](./find_all) Finds all the elements matching a predicate in a given range. The result is iterators referring to requested elements in the range.
 * [find_and_replace](./find_and_replace) Find and Replace All Occurrences in a C++ String: `string`, `wstring`, `u16string`, `u32string`.
