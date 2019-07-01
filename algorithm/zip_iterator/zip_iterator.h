@@ -46,23 +46,17 @@ struct tuple : std::tuple<Ts&...> {
 template <typename... Ts>
 class iterator {
    std::tuple<Ts...> ts_; // tuple of iterators
-
-   template <size_t... Idx>
-   auto values(std::index_sequence<Idx...>) const {
-      return std::tuple<decltype(*std::get<Idx>(ts_))...>{ *std::get<Idx>(ts_)... };
-   }
-
 public:
    static constexpr auto indices = std::make_index_sequence<sizeof...(Ts)>();
 
    explicit iterator(Ts... ts) noexcept : ts_(ts...) {}
    iterator& operator++() {
-      // https://github.com/nikolaAV/Modern-Cpp/tree/master/tuple/variadic_parameter_list
       std::apply([](auto&... ts){ (ts++,...); }, ts_);
       return *this;
    }
    auto operator*() const {
-      return values(indices);
+      // https://github.com/nikolaAV/Modern-Cpp/tree/master/tuple/variadic_parameter_list
+      return std::apply([](auto&... ts){ return std::tuple<decltype(*ts)...>{*ts...}; },ts_);
    }
    auto tuple() const noexcept {
       return ts_;
