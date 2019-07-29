@@ -2,11 +2,16 @@
 #include <cstddef>
 #include <string_view>
 
+/**
+   Switch statement accepting string literals
+   \see https://github.com/nikolaAV/skeleton/tree/master/switch_string
+*/
+
 namespace s3 // sss, string switch support
 {
 
 /**
-   \brief Fowler–Noll–Vo hash function
+   \brief Fowlerâ€“Nollâ€“Vo hash function
    \see https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
 */
 constexpr std::uint32_t fnv1a_32(char const* s, std::size_t count) {
