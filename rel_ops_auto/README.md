@@ -30,9 +30,10 @@ int main()
 As of C++20, this implementation is deprecated in favor of [`operator<=>`](https://en.cppreference.com/w/cpp/language/default_comparisons).
 
 ## Further informations
-* [Barton–Nackman trick](https://en.wikipedia.org/wiki/Barton%E2%80%93Nackman_trick)
+* [Bartonâ€“Nackman trick](https://en.wikipedia.org/wiki/Barton%E2%80%93Nackman_trick)
 * [`std`::rel_ops](https://en.cppreference.com/w/cpp/utility/rel_ops/operator_cmp)
 * [`operator<=>`](https://en.cppreference.com/w/cpp/language/default_comparisons)
+* [Comparisons in C++20](https://brevzin.github.io/c++/2019/07/28/comparisons-cpp20/) by Barry Revzin
 ## Related links
 * [ADL and friend function defenition](https://github.com/nikolaAV/Storehouse-Of-Knowledge/blob/master/questions/README.md#argument-dependent-lookup-friend-function-definition)
 
