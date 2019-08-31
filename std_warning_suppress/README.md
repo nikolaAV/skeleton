@@ -16,3 +16,14 @@ int main()
 {
 	...
 ```
+
+## Further informations
+* [How to Disable a Warning in C++](https://www.fluentcpp.com/2019/08/30/how-to-disable-a-warning-in-cpp/) by Jonathan Boccara
+
+## Related links
+* TBD
+
+## Compilers
+* Microsoft (R) C/C++ Compiler
+* GCC
+* Clang
