@@ -16,6 +16,7 @@ this technique works for converting any type that you can output using << to a s
 * [C++ Style and Technique FAQ](http://www.stroustrup.com/bs_faq2.html#int-to-string) by Bjarne Stroustrup
 * [C++17, Elementary string conversions](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0067r5.html)
 * [How to Use The Newest C++ String Conversion Routines](https://www.bfilipek.com/2018/12/fromchars.html) by Bartlomiej Filipek
-
+* [How to Convert Numbers into Text with `std::to_char` in C++17](https://www.bfilipek.com/2019/11/tochars.html)
+ 
 ## Related links
 * TBD
