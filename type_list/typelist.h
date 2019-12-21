@@ -326,8 +326,7 @@ namespace tl // <-- typelist
 ///
 
     template<typename TList, typename T>
-    struct replace_front {
-        using type = push_front_t<pop_front_t<TList>,T>;
+    struct replace_front : push_front<pop_front_t<TList>, T> {
     };
 
     template<typename TList, typename T>
@@ -515,8 +514,7 @@ using accumulate_t = typename accumulate<TList, MetaFun, I>::type;
 ///
 
 template <typename TList>
-struct unique {
-    using type = accumulate_t<TList,push_back_unique,list<>>;
+struct unique : accumulate<TList, push_back_unique, list<>> {
 };
 
 template<typename TList>
@@ -533,8 +531,7 @@ using unique_t = typename unique<TList>::type;
 ///
 
 template <typename TList>
-struct unique_reverse {
-    using type = accumulate_t<TList,push_front_unique,list<>>;
+struct unique_reverse : accumulate<TList,push_front_unique,list<>> {
 };
 
 template<typename TList>
