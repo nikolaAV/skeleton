@@ -183,8 +183,69 @@ namespace unit_test
       static_assert(std::is_same_v<output2, list<void*, float, void, char, int>>, "tl_unique assert 2");
    }
 
+   void tl_has_nested_list() {
+      static_assert(!has_nested_list_v<empty_type>, "tl_has_nested_list assert 1");
+      static_assert(!has_nested_list_v<integral_types>, "tl_has_nested_list assert 2");
+      static_assert(has_nested_list_v<list<integral_types>>, "tl_has_nested_list assert 3");
+      static_assert(has_nested_list_v<list<int,bool,list<char,void>>>, "tl_has_nested_list assert 4");
+   }
+
+
 } // end of unit_test
+
+
+// make linear
+
+using namespace tl;
+
+
+template<typename TList1, typename T> 
+struct copy : push_back<TList1,T> {
+};
+
+template <typename TList1, typename... Ts>
+struct copy<TList1, list<Ts...>> : accumulate<list<Ts...>, push_back, TList1> {
+};
+
+template <typename TList1>
+struct copy<TList1, list<>> {
+   using type = TList1;
+};
+
+template<typename TList1, typename TList2>
+using copy_t = typename copy<TList1, TList2>::type;
+
+
+template<typename TList>
+struct nlr_traverse : copy<list<>,TList> {
+};
+
+template<typename TList>
+using  nlr_traverse_t = typename  nlr_traverse<TList>::type;
+
+///
+
 
 int main()
 {
+
+   static_assert(!has_nested_list_v<list<int,bool,void>>);
+   static_assert(has_nested_list_v<list<int,bool,list<>,void>>);
+
+{
+   using l1 = copy_t<list<int,int>,list<bool,bool>>;
+   static_assert(std::is_same_v<l1,list<int,int,bool,bool>>);
+
+   using l2 = copy_t<list<int, int>, list<>>;
+   static_assert(std::is_same_v<l2, list<int, int>>);
+
+   using l3 = copy_t<list<int, int>, bool>;
+   static_assert(std::is_same_v<l3, list<int, int, bool>>);
+
+   using l4 = copy_t<list<>, list<void,list<bool,int>>>;
+   static_assert(std::is_same_v<l4, list<void,bool,int>>);
+
+   using l5 = copy_t<list<char>, list<void, list<bool, int>, void>>;
+   static_assert(std::is_same_v<l5, list<char,void, bool, int, void>>);
+}
 }

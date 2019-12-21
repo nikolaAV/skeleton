@@ -67,8 +67,8 @@ namespace tl // <-- typelist
     struct is_empty<list<>> : std::true_type {
     };
 
-    template <typename T>
-    inline constexpr bool is_empty_v = is_empty<T>::value;
+    template <typename TList>
+    inline constexpr bool is_empty_v = is_empty<TList>::value;
 
 ///
 /// @brief `size` returns number of elements in the list
@@ -86,8 +86,8 @@ namespace tl // <-- typelist
         static constexpr unsigned value = sizeof...(Ts);
     };
 
-    template <typename T>
-    inline constexpr unsigned size_v = size<T>::value;
+    template <typename TList>
+    inline constexpr unsigned size_v = size<TList>::value;
 
 ///
 /// @brief `any_of` checks if specified type T exists in a list of types
@@ -376,8 +376,8 @@ namespace tl // <-- typelist
         > {
     };    
 
-    template <typename T>
-    inline constexpr bool is_unique_v = is_unique<T>::value;
+    template <typename TList>
+    inline constexpr bool is_unique_v = is_unique<TList>::value;
 
 ///  
 /// @brief is_same checks if all types in the typelist are the same
@@ -395,8 +395,34 @@ namespace tl // <-- typelist
     struct is_same <list<Head,Tail...>> : all_of<list<Tail...>, Head> { 
     };    
 
-    template <typename T>
-    inline constexpr bool is_same_v = is_same<T>::value;
+    template <typename TList>
+    inline constexpr bool is_same_v = is_same<TList>::value;
+
+
+///  
+/// @brief checks if the typelist contains other list as an element
+/// @param  TList variadic template list<T1,T2,...> representing a list of types
+/// @return the member constant 'value' equal to `true` if at least one element is of list<...> type. Otherwise value is `false`.
+/// @code
+///     has_nested_list<list<int,int,int,int>>::value == false
+///     has_nested_list<list<int,char,list<void>,int>>::value == true
+/// @endcode
+///
+
+    template <typename TList>
+    struct has_nested_list : std::false_type {
+    };
+
+    template <typename Head, typename... Tail>
+    struct has_nested_list<list<Head, Tail...>> : std::conditional_t <
+        is_list<Head>::value
+       ,std::true_type
+       ,has_nested_list<list<Tail...>>
+    > {
+    };
+
+    template <typename TList>
+    inline constexpr bool has_nested_list_v = has_nested_list<TList>::value;
 
 /// 
 /// @brief reverse returns typelist with element in reverse order
