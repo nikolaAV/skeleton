@@ -504,29 +504,29 @@ namespace tl // <-- typelist
 /// @endcode
 ///
 
-template<
-     typename TList
-    ,template<typename ResultT, typename T> class MetaFun
-    ,typename I
-    ,bool = is_empty<TList>::value
-    >
-struct accumulate;
+   template<
+        typename TList
+       ,template<typename ResultT, typename T> class MetaFun
+       ,typename I
+       ,bool = is_empty<TList>::value
+       >
+   struct accumulate;
 
-template<typename TList, template<typename ResultT, typename T> class MetaFun, typename I>
-struct accumulate<TList, MetaFun, I, false> : accumulate<
-                                                     pop_front_t<TList>
-                                                    ,MetaFun
-                                                    ,typename MetaFun<I, front_t<TList>>::type
-                                                > {
-};
+   template<typename TList, template<typename ResultT, typename T> class MetaFun, typename I>
+   struct accumulate<TList, MetaFun, I, false> : accumulate<
+                                                        pop_front_t<TList>
+                                                       ,MetaFun
+                                                       ,typename MetaFun<I, front_t<TList>>::type
+                                                   > {
+   };
 
-template<typename TList, template<typename ResultT, typename T> class MetaFun, typename I>
-struct accumulate<TList, MetaFun, I, true> {
-    using type = I;
-};
+   template<typename TList, template<typename ResultT, typename T> class MetaFun, typename I>
+   struct accumulate<TList, MetaFun, I, true> {
+       using type = I;
+   };
 
-template<typename TList, template<typename ResultT, typename T> class MetaFun, typename I>
-using accumulate_t = typename accumulate<TList, MetaFun, I>::type;
+   template<typename TList, template<typename ResultT, typename T> class MetaFun, typename I>
+   using accumulate_t = typename accumulate<TList, MetaFun, I>::type;
 
 
 /// 
@@ -539,12 +539,12 @@ using accumulate_t = typename accumulate<TList, MetaFun, I>::type;
 /// @endcode
 ///
 
-template <typename TList>
-struct unique : accumulate<TList, push_back_unique, list<>> {
-};
+   template <typename TList>
+   struct unique : accumulate<TList, push_back_unique, list<>> {
+   };
 
-template<typename TList>
-using unique_t = typename unique<TList>::type;
+   template<typename TList>
+   using unique_t = typename unique<TList>::type;
 
 /// 
 /// @brief eliminates all but the first element of type T from the input typelist and populates the output typelist of elements in reverse order 
@@ -556,12 +556,60 @@ using unique_t = typename unique<TList>::type;
 /// @endcode
 ///
 
-template <typename TList>
-struct unique_reverse : accumulate<TList,push_front_unique,list<>> {
-};
+   template <typename TList>
+   struct unique_reverse : accumulate<TList,push_front_unique,list<>> {
+   };
 
-template<typename TList>
-using unique_reverse_t = typename unique_reverse<TList>::type;
+   template<typename TList>
+   using unique_reverse_t = typename unique_reverse<TList>::type;
+
+
+///
+/// @brief inserts linearly all elements from one typelist onto the end of the other one
+/// @param TList1 a destination typelis, tl::list<type1,type2,...>
+/// @param TList2 a source typelis, tl::list<type1,type2,...tl::list<type3,type4,...>>
+///         TList2 is to be inserted. If it contains nested lists than their elements are copied linearly (nested lists are expanded) 
+/// @return the member typename 'type' representing the typelist as a concatenation TList1 + TList2
+/// @code
+///     using destination = list<void>;
+///     using source = list<int,list<char,bool>,list<float,double>>;
+///     using composition = copy_linearly_t<destination,source>; // list<void,int,char,bool,float,double>
+/// @endcode
+///
+
+   template<typename TList, typename T>
+   struct copy_linearly : push_back<TList, T> {
+   };
+
+   template <typename TList1, typename... Ts>
+   struct copy_linearly<TList1, list<Ts...>> : accumulate<list<Ts...>, copy_linearly, TList1> {
+   };
+
+   template <typename TList1>
+   struct copy_linearly<TList1, list<>> {
+      using type = TList1;
+   };
+
+   template<typename TList1, typename TList2>
+   using copy_linearly_t = typename copy_linearly<TList1, TList2>::type;
+
+
+///
+/// @brief expands input typelist and makes it linear
+/// @param TList a typelis, tl::list<type1,type2,...>
+///         If it contains nested lists than they will be expanded
+/// @return the member typename 'type' representing the linear typelist (no nested typelists)
+/// @code
+///      using my_list = linear_list_t<list<list<List<A,B>>>,C>;  // list<A,B,C>
+/// @endcode
+///
+
+   template<typename TList>
+   struct linear_list : copy_linearly<list<>, TList> {
+   };
+
+   template<typename TList>
+   using  linear_list_t = typename  linear_list<TList>::type;
 
 
 ////////////////////// TBD
