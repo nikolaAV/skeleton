@@ -224,15 +224,38 @@ namespace unit_test
 
 
 using namespace tl;
+using namespace rt;
 
 
-/////////////
+// Example of usage
 
-///
+#include <string>
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+struct visitor
+{
+   void operator()(int*, int a1, double a2, const char* a3 ) { 
+      collector.push_back(string{"I'm `int`: "} + to_string(a1));
+   }
+   void operator()(double*, int a1, double a2, const char* a3) { 
+      collector.push_back(string{ "I'm `double`: " } +to_string(a2));
+   }
+   void operator()(const char**, int a1, double a2, const char* a3) {
+      collector.push_back(string{ "I'm `string`: " } + a3);
+   }
+
+   vector<string> collector;
+};
 
 
 int main()
 {
-
-
+   using composition = list<int,double,const char*>;
+   auto out = for_each<composition>(visitor{}, 1, .1, "Hello, World!").collector;
+   for(auto s:out)
+      cout << s << endl;   
+   cin.get();
 }

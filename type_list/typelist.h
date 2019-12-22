@@ -1,4 +1,5 @@
 #include <type_traits>
+#include <utility>
 
 /**
  *    A typelist is a type that represents a list of types and can be manipulated by a
@@ -612,13 +613,62 @@ namespace tl // <-- typelist
    using  linear_list_t = typename  linear_list<TList>::type;
 
 
-////////////////////// TBD
-// remove_first<TList,T>
-// remove_last<TList,T>
-// remove_all<TList,T>
-// for_each(TList,Visitor<T>)
-//
-// ... a list of algorithms is incomplete
+namespace rt   // run-time 
+{
 
+///
+/// @brief applies the given function object f to every type in the typelist, in order.
+/// @param TList a typelis, tl::list<type1,type2,...>
+/// @param f function object, to be applied
+///      The signature of the function should be equivalent to the following
+///      void fun(T*, Args...);
+///      where
+///      T* - nullptr of T type, an element from the typelist. T* (first parameter) is used as a dummy to make overloading possible 
+///      Args - arguments (any number of any types) you want to pass to the given function object
+/// @return std::move(f)
+/// @code
+///         using composition = list<int, double, const char*>;
+///         struct visitor {
+///            void operator()(int*, int a1, double a2, const char* a3) {
+///               collector.push_back(string{ "I'm `int`: " } +to_string(a1));
+///            }
+///            void operator()(double*, int a1, double a2, const char* a3) {
+///               collector.push_back(string{ "I'm `double`: " } +to_string(a2));
+///            }
+///            void operator()(const char**, int a1, double a2, const char* a3) {
+///               collector.push_back(string{ "I'm `string`: " } +a3);
+///            }
+///            vector<string> collector;
+///         };
+///         auto out = for_each<composition>(visitor{}, 1, .1, "Hello, World!").collector;
+///         // output: "I'm `int`: 1" "I'm `double`: .1" "I'm `string`: Hello, World!"
+/// @endcode
+///
 
-}   // namespace tl, tl = typelist
+   template <typename TList> struct visit;
+
+   template <>
+   struct visit <list<>> {
+      template <typename F, typename... Args>
+      F operator()(F f, Args&&...) {
+         return std::move(f);
+      }
+   };
+
+   template <typename Head, typename... Tail>
+   struct visit<list<Head, Tail...>> {
+      template <typename F, typename... Args >
+      F operator()(F f, Args&&... args) {
+         f((Head*)nullptr, std::forward<Args>(args)...);
+         return visit<list<Tail...>>()(std::move(f), std::forward<Args>(args)...);
+      }
+   };
+
+   template <typename TList, typename F, typename... Args>
+   F for_each(F f, Args&&... args) {
+      return visit<TList>()(std::move(f), std::forward<Args>(args)...);
+   }
+
+}  // namespace rt   
+
+}  // namespace tl, tl = typelist
