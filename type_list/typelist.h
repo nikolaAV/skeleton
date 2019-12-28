@@ -90,6 +90,24 @@ namespace tl // <-- typelist
     template <typename TList>
     inline constexpr unsigned size_v = size<TList>::value;
 
+
+///
+/// @brief  Forms the logical negation of the type trait B.
+/// @param B is a UnaryTypeTrait
+/// @return std::bool_constant<!bool(B::value)>
+/// @see https://en.cppreference.com/w/cpp/types/negation
+/// @code
+///     static_assert(std::is_same_v<std::true_type,negation<std::false_type>>);
+/// @endcode
+///
+
+    template <typename B>
+    struct negation : std::conditional_t<B::value,std::false_type,std::true_type> {
+    };
+
+  template<class B>
+  inline constexpr bool negation_v = negation<B>::value;
+
 ///
 /// @brief `any_of` checks if specified type T exists in a list of types
 /// @param  T requested task to be tested
@@ -126,7 +144,7 @@ namespace tl // <-- typelist
 ///
 
     template<typename TList, typename T> 
-    struct none_of : std::conditional_t<!any_of<TList,T>::value,std::true_type,std::false_type> {
+    struct none_of : negation<any_of<TList,T>> {
     };
 
     template<typename TList, typename T>
@@ -142,7 +160,14 @@ namespace tl // <-- typelist
 ///
 
     template<typename TList, typename T> 
-    struct all_of : std::true_type {
+    struct all_of;
+
+    template<typename Uno, typename T> 
+    struct all_of<list<Uno>,T> : std::is_same<Uno,T> {
+    };
+
+    template<typename T> 
+    struct all_of<list<>,T> : std::false_type {
     };
 
     template<typename Head, typename... Tail, typename T> 
@@ -155,6 +180,187 @@ namespace tl // <-- typelist
 
     template<typename TList, typename T>
     inline constexpr bool all_of_v = all_of<TList,T>::value;
+
+///
+/// @brief `any_of_if` checks if there is a type T in the typelist which meets the requirement
+/// @param  TList variadic template list<T1,T2,...> representing a list of types
+/// @param  MetaPredicate specifies requirements for type T. 
+///         It must have defintion: template <typename T> typename MetaPred { static constexpr bool value = some_operation<T> };
+/// @return the member constant 'value' of boolean type equal to `true` if at least one element of type T for which MetaPred<T>::value == true is in the TList. Otherwise value is `false`.
+/// @code
+///         using list1 = list<double,float,const char*,void*>;
+///         any_of_if<list1,std::is_integral>::value==false
+/// @endcode
+///
+
+    template<typename TList, template <typename T> class MetaPredicate> 
+    struct any_of_if : std::false_type {
+    };
+
+    template<typename Head, typename... Tail, template <typename T> class MetaPredicate> 
+    struct any_of_if<list<Head,Tail...>,MetaPredicate> : std::conditional_t<
+                         MetaPredicate<Head>::value
+                        ,std::true_type
+                        ,any_of_if<list<Tail...>,MetaPredicate>
+        > {
+    };
+
+    template<typename TList, template <typename T> class MetaPredicate> 
+    inline constexpr bool any_of_if_v = any_of_if<TList,MetaPredicate>::value;
+
+///
+/// @brief `none_of_if` checks if there is no type T in the typelist which meets the requirement
+/// @param  TList variadic template list<T1,T2,...> representing a list of types
+/// @param  MetaPredicate specifies requirements for type T. 
+///         It must have defintion: template <typename T> typename MetaPred { static constexpr bool value = some_operation<T> };
+/// @return the member constant 'value' of boolean type equal to `false` if at least one element of type T for which MetaPred<T>::value == true is in the TList. Otherwise value is `true`.
+/// @code
+///         using list1 = list<double,float,const char*,void*>;
+///         none_of_if<list1,std::is_integral>::value==true
+/// @endcode
+///
+
+    template<typename TList, template <typename T> class MetaPredicate> 
+    struct none_of_if : std::true_type {
+    };
+
+    template<typename Head, typename... Tail, template <typename T> class MetaPredicate> 
+    struct none_of_if<list<Head,Tail...>,MetaPredicate> : std::conditional_t<
+                         MetaPredicate<Head>::value
+                        ,std::false_type
+                        ,none_of_if<list<Tail...>,MetaPredicate>
+        > {
+    };
+
+    template<typename TList, template <typename T> class MetaPredicate> 
+    inline constexpr bool none_of_if_v = none_of_if<TList,MetaPredicate>::value;
+
+
+///
+/// @brief `all_of_if` checks if all types in the typelist meet the requirement
+/// @param  TList variadic template list<T1,T2,...> representing a list of types
+/// @param  MetaPredicate specifies requirements for type T. 
+///         It must have defintion: template <typename T> typename MetaPred { static constexpr bool value = some_operation<T> };
+/// @return the member constant 'value' of boolean type equal to `true` if every element of type T is in the TList has MetaPred<T>::value==true. Otherwise value is `false`.
+/// @code
+///         using list1 = list<int,float,char,bool>;
+///         all_of_if<list1,std::is_integral>::value==false
+/// @endcode
+///
+
+    template<typename TList, template <typename T> class MetaPredicate> 
+    struct all_of_if;
+
+    template<typename T, template <typename T> class MetaPredicate> 
+    struct all_of_if<list<T>,MetaPredicate> : MetaPredicate<T> {
+    };
+
+    template<template <typename T> class MetaPredicate> 
+    struct all_of_if<list<>,MetaPredicate> : std::false_type {
+    };
+
+    template<typename Head, typename... Tail, template <typename T> class MetaPredicate> 
+    struct all_of_if<list<Head,Tail...>,MetaPredicate> : std::conditional_t<
+                         MetaPredicate<Head>::value
+                        ,all_of_if<list<Tail...>,MetaPredicate>
+                        ,std::false_type
+        > {
+    };
+
+    template<typename TList, template <typename T> class MetaPredicate> 
+    inline constexpr bool all_of_if_v = all_of_if<TList,MetaPredicate>::value;
+
+///
+/// @brief `any_of_from` checks if there is a type T in the typelist1 which matches to any type from typelist2
+/// @param  TList1 variadic template list<T1,T2,...> 
+/// @param  TList2 variadic template list<T1,T2,...> 
+/// @return the member constant 'value' of boolean type equal to `true` if there is at least one match in both typelists. Otherwise value is `false`.
+/// @code
+///         using list1 = list<double,float,const char*,void*>;
+///         using list2 = list<A,B,void*,C>;
+///         any_of_from<list1,list2>::value==true
+/// @endcode
+///
+
+    template<typename TList1, typename TList2> 
+    struct any_of_from : std::false_type {
+    };
+
+    template<typename Head, typename... Tail, typename TList2> 
+    struct any_of_from<list<Head,Tail...>,TList2> : std::conditional_t<
+                 any_of<TList2,Head>::value
+                ,std::true_type
+                ,any_of_from<list<Tail...>,TList2>
+            >  
+    {};
+
+    template<typename TList1, typename TList2> 
+    inline constexpr bool any_of_from_v = any_of_from<TList1,TList2>::value;
+
+
+///
+/// @brief `none_of_from` checks if there is nothing in the typelist1 which matches to any type from typelist2
+/// @param  TList1 variadic template list<T1,T2,...> 
+/// @param  TList2 variadic template list<T1,T2,...> 
+/// @return the member constant 'value' of boolean type equal to `true` if there no match in both typelists. Otherwise value is `false`.
+/// @code
+///         using list1 = list<double,float,const char*,void*>;
+///         using list2 = list<A,B,void*,C>;
+///         none_of_from<list1,list2>::value==false
+/// @endcode
+///
+
+    template<typename TList1, typename TList2> 
+    struct none_of_from : negation<any_of_from<TList1,TList2>> {
+    };
+
+
+    template<typename TList1, typename TList2> 
+    inline constexpr bool none_of_from_v = none_of_from<TList1,TList2>::value;
+
+
+///
+/// @brief `all_of_from` checks if each element of type T from typelist1 has a match in a set enclosed by typelist2  
+/// @param  TList1 variadic template list<T1,T2,...> 
+/// @param  TList2 variadic template list<T1,T2,...> 
+/// @return the member constant 'value' of boolean type equal to `true` if there are matches in typelist2 for every T from typelist1. Otherwise value is `false`. 
+/// @code
+///         using list1 = list<double,float>;
+///         using list2 = list<char,double,void,float,int>;
+///         all_of_from<list1,list2>::value==true
+/// @endcode
+///
+
+    template<typename TList1, typename TList2> 
+    struct all_of_from;
+
+    template <>
+    struct all_of_from<list<>,list<>> : std::true_type {
+    };
+
+    template <typename... Ts>
+    struct all_of_from<list<>,list<Ts...>> : std::true_type {
+    };
+
+    template <typename... Ts>
+    struct all_of_from<list<Ts...>,list<>> : std::false_type {
+    };
+
+    template <typename T, typename... Ts>
+    struct all_of_from<list<T>,list<Ts...>> : any_of<list<Ts...>,T> {
+    };
+
+    template<typename Head, typename... Trait, typename TList2> 
+    struct all_of_from<list<Head,Trait...>,TList2> : std::conditional_t<
+                 any_of<TList2,Head>::value
+                ,all_of_from<list<Trait...>,TList2>
+                ,std::false_type
+        > {
+    };
+
+
+    template<typename TList1, typename TList2> 
+    inline constexpr bool all_of_from_v = all_of_from<TList1,TList2>::value;
 
 ///
 /// @brief the `front` metafunction extracts the first element from the typelist
@@ -242,11 +448,6 @@ namespace tl // <-- typelist
         using type = list<T,Ts...>;
     };
 
-    template<typename... Ts, typename... Us>
-    struct push_front<list<Ts...>,list<Us...>> {
-        using type = list<Us...,Ts...>;
-    };
-
     template<typename TList, typename T>
     using push_front_t = typename push_front<TList,T>::type;
 
@@ -267,11 +468,6 @@ namespace tl // <-- typelist
     template<typename... Ts, typename T>
     struct push_back<list<Ts...>,T> {
         using type = list<Ts...,T>;
-    };
-
-    template<typename... Ts, typename... Us>
-    struct push_back<list<Ts...>,list<Us...>> {
-        using type = list<Ts...,Us...>;
     };
 
     template<typename TList, typename T>
@@ -314,6 +510,45 @@ namespace tl // <-- typelist
 
     template<typename TList, typename T>
     using push_back_unique_t = typename push_back_unique<TList,T>::type;
+
+///
+/// @brief the `push_front_if` inserts an element T onto the front of the typelist if a condition meets the requirement.
+/// @param TList a typelis, tl::list<type1,type2,...>
+/// @param T type to be inserted
+/// @param Condition<T> specifies the requirement to T, see example std::is_integral<T>
+/// @return the member typename 'type' representing the typelist as a concatenation T + original TList if Condition<T>::value==true. 
+/// @code
+///     using original_list = list<A,B,C>;
+///     using other_list = push_front_if_t<original_list,std::integral,bool>;    // list<bool,A,B,C>
+/// @endcode
+///
+    template<typename TList, template <typename T> class Condition, typename T> 
+    struct push_front_if {
+        using type = std::conditional_t<Condition<T>::value,push_front_t<TList,T>,TList>;
+    };
+
+    template<typename TList, template <typename T> class Condition, typename T>
+    using push_front_if_t = typename push_front_if<TList,Condition,T>::type;
+
+
+///
+/// @brief the `push_back_if` inserts an element T at the end of the typelist if a condition meets the requirement.
+/// @param TList a typelis, tl::list<type1,type2,...>
+/// @param T type to be inserted
+/// @param Condition<T> specifies the requirement to T, see example std::is_integral<T>
+/// @return the member typename 'type' representing the typelist as a concatenation original TList + T if Condition<T>::value==true. 
+/// @code
+///     using original_list = list<A,B,C>;
+///     using other_list = push_front_if_t<original_list,std::integral,void*>;    // list<A,B,C>
+/// @endcode
+///
+    template<typename TList, template <typename T> class Condition, typename T> 
+    struct push_back_if {
+        using type = std::conditional_t<Condition<T>::value,push_back_t<TList,T>,TList>;
+    };
+
+    template<typename TList, template <typename T> class Condition, typename T>
+    using push_back_if_t = typename push_back_if<TList,Condition,T>::type;
 
 ///
 /// @brief `replace_front` replaces the first element in a typelist by applying new one
@@ -464,25 +699,38 @@ namespace tl // <-- typelist
 /// @endcode
 ///
 
-    template<typename TList, template<typename T> class MetaFun, bool Empty = is_empty<TList>::value>
+// --- Recursive Algorithms ---
+//    template<typename TList, template<typename T> class MetaFun, bool Empty = is_empty<TList>::value>
+//    struct transform;
+//
+//    template<typename TList, template<typename T> class MetaFun>
+//    using transform_t = typename transform<TList, MetaFun>::type;
+//
+//    template<typename TList, template<typename T> class MetaFun>
+//    struct transform<TList, MetaFun, false> : push_front <
+//                 transform_t<pop_front_t<TList>,MetaFun>
+//                ,typename MetaFun<front_t<TList>>::type
+//            >
+//    {
+//    };
+//
+//    template<typename TList, template<typename T> class MetaFun>
+//    struct transform<TList, MetaFun, true> {
+//        using type = TList;
+//    };
+
+// ---  Optimized 'transform' with Pack Expansions ---
+    template<typename TList, template<typename T> class MetaFun>
     struct transform;
+
+    template<typename... Ts, template<typename T> class MetaFun>
+    struct transform<list<Ts...>,MetaFun> {
+        using type = list<typename MetaFun<Ts>::type...>;
+    };
 
     template<typename TList, template<typename T> class MetaFun>
     using transform_t = typename transform<TList, MetaFun>::type;
 
-    template<typename TList, template<typename T> class MetaFun>
-    struct transform<TList, MetaFun, false> : push_front <
-                 transform_t<pop_front_t<TList>,MetaFun>
-                ,typename MetaFun<front_t<TList>>::type
-            >
-    {
-    };
-
-    template<typename TList, template<typename T> class MetaFun>
-    struct transform<TList, MetaFun, true> {
-        using type = TList;
-    };
-    
 /// 
 /// @brief combines all of the elements in the typelist into a single resulting value.
 ///     The `accumulate` algorithm takes a typelist TList with elements T1 ,T2 , ..., TN
@@ -566,33 +814,33 @@ namespace tl // <-- typelist
 
 
 ///
-/// @brief inserts linearly all elements from one typelist onto the end of the other one
+/// @brief inserts types from a typelist onto the end of the other one in a row
 /// @param TList1 a destination typelis, tl::list<type1,type2,...>
 /// @param TList2 a source typelis, tl::list<type1,type2,...tl::list<type3,type4,...>>
 ///         TList2 is to be inserted. If it contains nested lists than their elements are copied linearly (nested lists are expanded) 
-/// @return the member typename 'type' representing the typelist as a concatenation TList1 + TList2
+/// @return the member typename 'type' representing the typelist as a concatenation TList1 + singular types of TList2
 /// @code
 ///     using destination = list<void>;
 ///     using source = list<int,list<char,bool>,list<float,double>>;
-///     using composition = copy_linearly_t<destination,source>; // list<void,int,char,bool,float,double>
+///     using composition = push_back_termwise_t<destination,source>; // list<void,int,char,bool,float,double>
 /// @endcode
 ///
 
    template<typename TList, typename T>
-   struct copy_linearly : push_back<TList, T> {
+   struct push_back_termwise : push_back<TList, T> {
    };
 
    template <typename TList1, typename... Ts>
-   struct copy_linearly<TList1, list<Ts...>> : accumulate<list<Ts...>, copy_linearly, TList1> {
+   struct push_back_termwise<TList1, list<Ts...>> : accumulate<list<Ts...>, push_back_termwise, TList1> {
    };
 
    template <typename TList1>
-   struct copy_linearly<TList1, list<>> {
+   struct push_back_termwise<TList1, list<>> {
       using type = TList1;
    };
 
    template<typename TList1, typename TList2>
-   using copy_linearly_t = typename copy_linearly<TList1, TList2>::type;
+   using push_back_termwise_t = typename push_back_termwise<TList1, TList2>::type;
 
 
 ///
@@ -606,12 +854,83 @@ namespace tl // <-- typelist
 ///
 
    template<typename TList>
-   struct linear_list : copy_linearly<list<>, TList> {
+   struct linear_list : push_back_termwise<list<>, TList> {
    };
 
    template<typename TList>
    using  linear_list_t = typename  linear_list<TList>::type;
 
+
+///
+/// @brief concatenates types from two typelists
+/// @param TList1 a first typelis, tl::list<type1,type2,...>
+/// @param TList2 a second typelis, tl::list<typeA,typeB,...>
+/// @return the member typename 'type' representing the typelist as a concatenation of types from both typelists 
+/// @code
+///     using first = list<void,int>;
+///     using second = list<char,bool>;
+///     using composition = concatenate_t<first,second>; // list<void,int,char,bool>
+/// @endcode
+///
+
+    template <typename TList1, typename TList2>
+    struct concatenate;
+
+    template <typename... Ts, typename... Us>
+    struct concatenate<list<Ts...>,list<Us...>> {
+        using type = list<Ts...,Us...>;
+    };
+
+    template<typename TList1, typename TList2>
+    using concatenate_t = typename concatenate<TList1, TList2>::type;
+
+
+///
+/// @brief copies types from variadic number of typelists
+/// @param TList parameter pack of typelists 
+/// @return the member typename 'type' representing the typelist as a concatenation of types from every typelists as an input 
+/// @code
+///     using first = list<void,int>;
+///     using second = list<char,bool>;
+///     using third = list<float,double>;
+///     using composition = copy_t<first,second,third>; // list<void,int,char,bool,float,double>
+/// @endcode
+///
+
+    template <typename... TList>
+    struct copy;
+
+    template <typename... TList>
+    using copy_t = typename copy<TList...>::type;;
+
+    template <typename TList1, typename TList2>
+    struct copy<TList1, TList2> {
+        using type = concatenate_t<TList1,TList2>;
+    };
+
+    template <typename Head, typename... Tail>
+    struct copy<Head, Tail...> : copy<Head, copy_t<Tail...>> {
+    };
+
+/// 
+/// @brief  searches for types in the typelist for which Condition<T> returns true
+/// @param  TList variadic template list<T1,T2,...> representing a list of types
+/// @param  Condition - unary meta function which specifies search creteria for the requested type. It must meet the following defintion: template <typename T> Condition { bool value = some_operation<T> };
+/// @return the member typename 'type' representing typelist with types for which Condtition<T>::value==true
+/// @code
+///     using list = find_if_t<list<list<A>,int,list<B,C>,bool,void>,is_list>;  // output: list<list<A>,list<B,C>> 
+/// @endcode
+///
+
+    template<typename TList, template<typename T> class Condition>
+    struct find_if {
+        template <typename ResultType, typename T>
+        using push_if = push_back_if<ResultType,Condition,T>;
+        using type = accumulate_t<TList,push_if,list<>>;
+    };
+
+    template<typename TList, template<typename T> class Condition>
+    using  find_if_t = typename  find_if<TList,Condition>::type;
 
 namespace rt   // run-time 
 {
@@ -671,4 +990,4 @@ namespace rt   // run-time
 
 }  // namespace rt   
 
-}  // namespace tl, tl = typelist
+}   // namespace tl, tl = typelist
