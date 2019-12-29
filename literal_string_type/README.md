@@ -10,7 +10,7 @@ TBD
 * [Template literal operator for string literals](https://groups.google.com/a/isocpp.org/forum/#!topic/std-proposals/X4rnPAOB0as)
 
 ## Related links
-* [Compile-time string concatenation](./static_string)
+* [Compile-time string concatenation](../static_string)
 
 ## Compilers
 * [GCC 8.1.0](https://wandbox.org/)
