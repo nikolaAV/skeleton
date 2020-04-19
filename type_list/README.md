@@ -63,6 +63,7 @@ using output = reverse_t<input>; // list <D,C,B,A>
 
 ## Related links
 * [Variatic Templates. A few useful examples](https://github.com/nikolaAV/Modern-Cpp/tree/master/variadic)
+* [Compile time configuration](https://github.com/nikolaAV/compile_time_configuration)
 
 ## Compilers
 * [GCC 8.1.0](https://wandbox.org/)
