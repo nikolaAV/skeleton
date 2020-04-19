@@ -1,4 +1,4 @@
-# Key/value storage at compile time as list of types
+# Key/value storage at compile time as a list of types
 
 Example of usage:
 ```cpp

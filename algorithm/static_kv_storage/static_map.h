@@ -1,12 +1,14 @@
-#include "stdwarnings_suppress_on.h"
+#if !defined(_STATIC_KEY_VALUE_STORAGE_H__)
+#define _STATIC_KEY_VALUE_STORAGE_H__
+
 #include <type_traits>
-#include <iterator>
-#include <utility>
-#include "stdwarnings_suppress_off.h"
 
 /**
 
 */
+
+namespace ct_storage // ct_... stands for 'compile time'
+{
 
 template <typename T, T t>
 struct value_type {
@@ -96,31 +98,9 @@ typename List::second_type match(typename List::second_type key, typename List::
    return find_if<comparator_second, List>::test(key, def_val);
 }
 
-
 // Example of usage
 
-#include "stdwarnings_suppress_on.h"
-#include <string>
-#include <initializer_list>
-#include <iostream>
-#include "stdwarnings_suppress_off.h"
+} // ct_storage
 
-using namespace std;
-
-using cmap = couple_list<
-    kv<'1',1>
-   ,kv<'2',2>
-   ,kv<'3',3>
-   ,kv<'4',4>
-   ,kv<'5',5>
-   ,kv<'6',6>
->;
-
-int main()
-{
-//   cout << find_if<cmap>::test('1') << endl;
-   cout << match<cmap>('3') << endl;
-   cout << match<cmap>('7') << endl;
-   cout << match<cmap>('8',8) << endl;
-   cin.get();
-}
+#endif //_STATIC_KEY_VALUE_STORAGE_H__
+ 
