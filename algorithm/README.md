@@ -1,5 +1,6 @@
 In some situations, [the existing STL algorithms](https://en.cppreference.com/w/cpp/algorithm) (see also [algorithms catalogue](http://www.fluentcpp.com/STL/)) are not enough, even including [new C++ Library features](https://github.com/nikolaAV/Modern-Cpp/tree/master/stl). But nothing hinders us from implementing our own.
 
+* [if(value==any_of(1,2,...))](./expressive_condition) std::`any_of\all_of\none_of`in equality operator `==`
 * [find_all & find_all_if](./find_all) Finds all the elements matching a predicate in a given range. The result is iterators referring to requested elements in the range.
 * [find_and_replace](./find_and_replace) Find and Replace All Occurrences in a C++ String: `string`, `wstring`, `u16string`, `u32string`.
 * [for_each_permutation](./for_each_permutation) generates all possible permutations of input sequence and applies user-defined function object to each of them. 
