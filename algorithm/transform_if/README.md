@@ -40,7 +40,7 @@ Alternatively `transform_if` can be implemented on a way which makes it "more fu
         return std::accumulate(first, last, d_first, for_selected(pred, map_reduce(op)));
     }
 ```
-where the outcome of expression `for_selected(pred, map_reduce(op))` is then also called the _[reduce|https://github.com/nikolaAV/Modern-Cpp/tree/master/lambda/lambda_currying2/main2.cpp]_ function.
+where the outcome of expression `for_selected(pred, map_reduce(op))` is then also called the [reduce|https://github.com/nikolaAV/Modern-Cpp/tree/master/lambda/lambda_currying2/main2.cpp] function.
 ```cpp
 template <typename UnaryOperation>
 auto map_reduce(UnaryOperation op) {
