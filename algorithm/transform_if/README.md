@@ -32,7 +32,30 @@ Example of usage:
 ```
 
 ## Further informations
-TBD
+Alternatively `transform_if` can be implemented on a way which makes it "more functional" by means `std::accumulate`. `std::accumulate` i just ageneral _folding_ function. Folding a range means applying a binary operation to an accumulator variable and stepwise every item contained in the range (the result of each operation is then the accumulator value for the next one). As this function is so general, we can do all kinds of things with it, just like implementing `transform_if`. 
+```cpp
+    template< typename InputIt, typename OutputIt, typename UnaryPredicate, typename UnaryOperation>
+    OutputIt transform_if( InputIt first, InputIt last, OutputIt d_first, UnaryPredicate pred, UnaryOperation op)
+    {
+        return std::accumulate(first, last, d_first, for_selected(pred, map_reduce(op)));
+    }
+```
+where the outcome of expression `for_selected(pred, map_reduce(op))` is then also called the _[reduce|https://github.com/nikolaAV/Modern-Cpp/tree/master/lambda/lambda_currying2/main2.cpp]_ function.
+```cpp
+template <typename UnaryOperation>
+auto map_reduce(UnaryOperation op) {
+   return [op=std::move(op)](auto out, auto const& value){
+      return *out = op(value), ++out;
+   };
+}
+
+template <typename UnaryPredicate, typename ReduceOperation>
+auto for_selected(UnaryPredicate pred, ReduceOperation op) {
+   return[pred = std::move(pred), map_op = std::move(op)](auto out, auto const& value) {
+      return pred(value)? map_op(out, value) : out;
+   };
+}
+```
 
 ## Related links
 * [find_all](../find_all)
