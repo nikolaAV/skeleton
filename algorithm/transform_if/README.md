@@ -56,7 +56,7 @@ auto for_selected(UnaryPredicate pred, ReduceOperation op) {
 }
 ```
 ### alternative 2. std::copy_if + smart_outpu_iterator = transform_if
-This is an approach when transfer function is moved to the output iterator 
+This is an approach when transfer function is moved to the [smart output iterator](../output_transform_iterator) 
 ```cpp
 template< typename InputIt, typename OutputIt, typename UnaryPredicate, typename UnaryOperation>
 OutputIt transform_if(InputIt first, InputIt last, OutputIt d_first, UnaryPredicate pred, UnaryOperation op)
@@ -72,6 +72,7 @@ OutputIt transform_if(InputIt first, InputIt last, OutputIt d_first, UnaryPredic
 ## Related links
 * [find_all](../find_all)
 * [transform_if=std::accumulate+lambdas](https://github.com/nikolaAV/Modern-Cpp/tree/master/lambda/lambda_currying2)
+* [smart output iterator](../output_transform_iterator)
 
 [back to algorithm](../)
 
