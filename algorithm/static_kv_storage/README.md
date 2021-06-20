@@ -6,7 +6,31 @@ Our goal is to make a bridge between these two worlds to be able to pass data fr
 
 Example of usage:
 ```cpp
+using cmap = couple_list<
+   kv<'1', 1>
+   , kv<'2', 2>
+   , kv<'3', 3>
+   , kv<'4', 4>
+   , kv<'5', 5>
+   , kv<'6', 6>
+>;
+
+int main()
+{
+   std::cout << match<cmap>('3') << std::endl;
+   std::cout << match<cmap>('7') << std::endl;
+   std::cout << match<cmap>('8', 8) << std::endl;
+   cin.get();
+}
+// output 
+3
+0
+8
 ```
+[Google benchmark](https://quick-bench.com/q/Kfw4IkbqsLvQck82-4OBaU7O31E) shows that searging over a compiler type list of key/value is 250 times faster than an equivalent solution based on `std::map`. 
+
+![01](./chart.png)
+
 
 ## Further informations
 TBD
