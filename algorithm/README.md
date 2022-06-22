@@ -8,6 +8,7 @@ In some situations, [the existing STL algorithms](https://en.cppreference.com/w/
 * [FNV-1/FNV-1a hash](./hash_fnv1a_32) for vary input data, any types, any containters, any streams, etc. 
 * [insert_sorted](./insert_sorted) inserts an element into previously sorted sequence container to preserve its order. 
 * [min & max](https://github.com/nikolaAV/Modern-Cpp/tree/master/constexpr/min_max) accepting any number of arguments. 
+* [accumulate with moving support of accumulated value(until C++20)](./moving_accumulate)
 * [regex_for_each](./regex_for_each) calls the callable object for each match in input character sequence that meets the specified [regular expression](https://en.wikipedia.org/wiki/Regular_expression).
 * [simple_xor](./simple_xor) STL-like implementation of the simple XOR cipher ([a type of additive cipher](https://en.wikipedia.org/wiki/XOR_cipher) in cryptography).
 * [split & split_if](./split) To split __any__ (not only strings) range of items at each occurrence of a specific value, and it copies the chunks that result from that into an output range. [split2](./split2) uses `std::string_view` as ranges of sequential characters for input data. The user-defined functional object forms output data representation.  
