@@ -66,6 +66,28 @@ auto const pop_front = [] (auto const& list) {
     });
 };
 
+//
+// push_front : List[a1, a2, a3, ...], a0 -> List[a0, a1, a2,...], insertion at the beginning
+// @param a list
+// @param t value to be inserted in the first position
+//
+auto const push_front = [] (auto const& list, auto const& t) {
+    return list([&t](auto const&... ts){
+        return List(t, ts...);
+    });
+};
+
+//
+// push_front : List[a1, a2, a3], a4 -> List[a1, a2, a3, a4], insertion at the end
+// @param a list
+// @param t value to be inserted in the last position
+//
+auto const push_back = [] (auto const& list, auto const& t) {
+    return list([&t](auto const&... ts){
+        return List(ts..., t);
+    });
+};
+
 // tuple : List[a1, a2, a3, ...] -> std::tuple<...>{a1, a2, a3, ...}
 auto const tuple = [] (auto const& list) {
     return list([](auto const&... ts){

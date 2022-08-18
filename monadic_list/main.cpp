@@ -1,5 +1,6 @@
 /*
     g++ main.cpp -std=c++14 -o exe -g
+   // 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
 */
 
 
@@ -67,6 +68,20 @@ void test01()
     assert(expected == tie(list));
 }
 
+void test02()
+{
+   using namespace monadic_list;
+
+   auto const list1 = push_front(List(), 'A');
+   auto const list2 = push_front(list1, "C++");
+   auto const list3 = push_front(list2, 123);
+   auto const list4 = push_front(list3, -.456);
+   assert(equal(list4, List(-.456, 123, "C++", 'A')));
+
+   auto const list5 = push_back(list4, '\0');
+   assert(equal(list5, List(-.456, 123, "C++", 'A', '\0')));
+}
+
 void test11()
 {
     using namespace monadic_list;
@@ -116,6 +131,8 @@ int main()
 {
     test00();
     test01();
+    test02();
+
     test11();
     test12();
     test13();
