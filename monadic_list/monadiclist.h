@@ -30,6 +30,7 @@ auto const List = [](auto... ts) {
 
 //
 // @brief size : List[a1, a2, a3, ...] -> size_t, number of elements 
+// @param a list
 //
 auto const size = [] (auto const& list) {
     return list([](auto const&... ts){
@@ -38,7 +39,8 @@ auto const size = [] (auto const& list) {
 };
 
 //
-// @brief empty : List[a1, a2, a3, ...] -> bool, empty or not
+// @brief empty : List[...] -> bool, empty or not
+// @param a list
 //
 auto const empty = [] (auto const& list) {
     return list([](auto const&... ts){
@@ -57,7 +59,7 @@ auto const front = [] (auto const& list) {
 };
 
 //
-// pop_front : List[a1, a2, a3, ...] -> List[a2, a3, ...], list without the first element
+// @brief pop_front : List[a1, a2, a3, ...] -> List[a2, a3, ...], list without the first element
 // @param a list
 //
 auto const pop_front = [] (auto const& list) {
@@ -67,7 +69,7 @@ auto const pop_front = [] (auto const& list) {
 };
 
 //
-// push_front : List[a1, a2, a3, ...], a0 -> List[a0, a1, a2,...], insertion at the beginning
+// @brief push_front : List[a1, a2, a3, ...], a0 -> List[a0, a1, a2,...], insertion at the beginning
 // @param a list
 // @param t value to be inserted in the first position
 //
@@ -78,7 +80,7 @@ auto const push_front = [] (auto const& list, auto const& t) {
 };
 
 //
-// push_front : List[a1, a2, a3], a4 -> List[a1, a2, a3, a4], insertion at the end
+// @brief push_front : List[a1, a2, a3], a4 -> List[a1, a2, a3, a4], insertion at the end
 // @param a list
 // @param t value to be inserted in the last position
 //
@@ -88,44 +90,11 @@ auto const push_back = [] (auto const& list, auto const& t) {
     });
 };
 
-// tuple : List[a1, a2, a3, ...] -> std::tuple<...>{a1, a2, a3, ...}
-auto const tuple = [] (auto const& list) {
-    return list([](auto const&... ts){
-        return std::make_tuple(ts...);
-    });
-};
-
-// tie : List[a1, a2, a3, ...] -> std::tuple<&...> {a1, a2, a3, ...}
-auto const tie = [] (auto const& list) {
-    return list([](auto const&... ts){
-        return std::tie(ts...);
-    });
-};
-
-////////////////////////////////////////////////
-
-// fmap :
-// transform : List[a], (a -> b) -> List[b] 
-auto const transform = [](auto const& list, auto f){
-    return list([f=std::move(f)](auto const&... ts){
-        return List(f(ts)...);
-    });
-}; 
-
-// for_each : List[a], (a -> void) -> void 
-auto const for_each = [](auto const& list, auto f){
-    list([&f](auto const&... ts){
-        // @todo, workaround, not needed in C++17 with fold expression
-        std::initializer_list<int> {(f(ts),0)...};        
-    });
-};
-
-// equal : List[a], List[b] -> bool 
-auto const equal = [](auto const& list_left, auto const& list_right) {
-    return tie(list_left) == tie(list_right);
-};
-
-// concat : List[a], List[b] -> List[a+b] 
+//
+// @brief concat : List[a], List[b] -> List[a+b], keeps element ordering 
+// @param list_left - elements of the list to be inserted first
+// @param list_right - elements of the list to be inserted second
+//
 auto const concat = [](auto const& list_left, auto const& list_right) {
     return list_left([&list_right](auto const&... lts){
         return list_right([&](auto const&... rts){
@@ -134,12 +103,97 @@ auto const concat = [](auto const& list_left, auto const& list_right) {
     });
 };
 
-// zip : List[a], List[b] -> List[std::pair{a,b}] 
+//
+// @brief tuple : List[a1, a2, a3, ...] -> std::tuple<...>{a1, a2, a3, ...}
+// @param a list
+//
+auto const tuple = [] (auto const& list) {
+    return list([](auto const&... ts){
+        return std::make_tuple(ts...);
+    });
+};
+
+//
+// @brief tie : List[a1, a2, a3, ...] -> std::tuple<&...> {a1, a2, a3, ...}
+// @param a list
+//
+auto const tie = [] (auto const& list) {
+    return list([](auto const&... ts){
+        return std::tie(ts...);
+    });
+};
+
+//
+// @brief equal : List[a], List[b] -> bool, compares two lists 
+// @param two lists to be compared
+//
+auto const equal = [](auto const& list_left, auto const& list_right) {
+    return tie(list_left) == tie(list_right);
+};
+
+//
+// @brief zip : List[a], List[b] -> List[std::pair{a,b}] 
+// @param two lists to be combined into a list of pairs
+//
 auto const zip = [](auto const& list_left, auto const& list_right) {
     return list_left([&list_right](auto const&... lts){
         return list_right([&](auto const&... rts){
             return List(std::make_pair(lts, rts)...);
         });
+    });
+};
+
+////////////////////////////////////////////////
+
+//
+// fmap : List[a], (a -> b) -> List[b] 
+// @param a list
+//
+auto const fmap = [](auto const& list, auto f){
+    return list([f=std::move(f)](auto const&... ts){
+        return List(f(ts)...);
+    });
+}; 
+
+inline auto flatten() {
+    return List();
+}
+
+//
+// @brief flatten : List[a1], List[a2],... -> List[a1..., a2..., ...] 
+// @param a list of lists
+//
+template <typename ListT, typename... ListTs>
+auto flatten(ListT const& first, ListTs... others) {
+    return concat(first, flatten(others...));
+}
+
+//
+// @brief flatmap : List[a], (a -> List[b]) -> List[b] 
+// @param a list
+//
+auto const flatmap = [](auto const& list, auto f){
+    return list([f=std::move(f)](auto const&... ts){
+        return flatten(f(ts)...);
+    });
+}; 
+
+//
+// transform : List[a], (a -> b) -> List[b] 
+// @param a list
+// @note alias of 'fmap' to make it more understandable for C++ programmers knowing STL  
+// 
+auto const transform = [](auto const& list, auto f){
+    return fmap(list, std::move(f));
+}; 
+
+
+// @todo questionable?
+// for_each : List[a], (a -> void) -> void 
+auto const for_each = [](auto const& list, auto f){
+    list([&f](auto const&... ts){
+        // @todo, workaround, not needed in C++17 with fold expression
+        std::initializer_list<int> {(f(ts),0)...};        
     });
 };
 

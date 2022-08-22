@@ -82,6 +82,27 @@ void test02()
    assert(equal(list5, List(-.456, 123, "C++", 'A', '\0')));
 }
 
+void test03()
+{
+   using namespace monadic_list;
+
+   auto const list = flatten(List(1,2,3), List(4,5), List(6,7,8,9)); 
+   assert(equal(list, List(1,2,3,4,5,6,7,8,9)));
+}
+
+void test04()
+{
+   using namespace monadic_list;
+
+   auto const input = List(1,2,3,4,5,6,7,8,9); 
+   auto const propagate = [](auto&& element){
+        return List(element*-1, element*2);
+   }; 
+
+   auto const output = flatmap(input, propagate);
+   assert(equal(output, List(-1,2,-2,4,-3,6,-4,8,-5,10,-6,12,-7,14,-8,16,-9,18))); 
+}
+
 void test11()
 {
     using namespace monadic_list;
@@ -132,6 +153,8 @@ int main()
     test00();
     test01();
     test02();
+    test03();
+    test04();
 
     test11();
     test12();
