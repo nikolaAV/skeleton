@@ -4,7 +4,7 @@
 #include <type_traits>
 
 /**
-   \brief expressive conditional statements
+   \brief expressive conditional statements (C++14 version)
    \see  https://github.com/nikolaAV/skeleton/tree/master/algorithm/expressive_condition
 */
 

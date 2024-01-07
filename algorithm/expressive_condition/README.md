@@ -27,11 +27,13 @@ it can be done alternatively like this
 ```
 
 ## Further informations
-[std::`all_of\any_of\none_off`](https://en.cppreference.com/w/cpp/algorithm/all_any_none_of)
+* [std::`all_of\any_of\none_off`](https://en.cppreference.com/w/cpp/algorithm/all_any_none_of)
 
 ## Related links
-
-[back to algorithm](../)
+* [detection_idiom](https://github.com/nikolaAV/Modern-Cpp/tree/master/concept%20(pceudo)/detection_idiom)
+* [disable_templates_enable_if](https://github.com/nikolaAV/Modern-Cpp/tree/master/concept%20(pceudo)/enable_if_ctor)
+* [fold_expressions](https://github.com/nikolaAV/Modern-Cpp/tree/master/variadic/fold_expressions)
+* [back to algorithm section](../)
 
 ## Compilers
 * [GCC 5.4.0](https://wandbox.org/) with `-std=c++14` option
