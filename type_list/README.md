@@ -64,6 +64,7 @@ using output = reverse_t<input>; // list <D,C,B,A>
 ## Related links
 * [Variatic Templates. A few useful examples](https://github.com/nikolaAV/Modern-Cpp/tree/master/variadic)
 * [Compile time configuration](https://github.com/nikolaAV/compile_time_configuration)
+* [using C++20 concept to find types in the list by requested traits](https://github.com/nikolaAV/Modern-Cpp/tree/master/concept%20(C++20)/for_each)
 
 ## Compilers
 * [GCC 8.1.0](https://wandbox.org/)
