@@ -35,7 +35,7 @@ Janett, Anna, Emma, Olivia
 TBD
 
 ## Related links
-* TBD
+* [another example of pipeline](../../pipeline_constructor)
 
 [back to algorithm](../)
 
