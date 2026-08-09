@@ -18,3 +18,4 @@ In some situations, [the existing STL algorithms](https://en.cppreference.com/w/
 * [zip iterator](./zip_iterator) provides the ability to parallel-iterate over several controlled sequences simultaneously.
 * [output_transform_iterator](./output_transform_iterator) another approach to compose higher order functions by means using existing ones and moving the logic into output iterators.
 * [pipeline builder](./pipe) just to define a sequence of action in order one after another following the functional style.
+* [Cartesian product](./cartesian_product) the Cartesian product algorithm for an arbitrary number of tuples (`std::tuple`) using a functional approach, recursion, and variadic templates.
