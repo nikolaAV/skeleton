@@ -32,6 +32,7 @@ int main()
 
 ## Further informations
 * [std::apply`](https://en.cppreference.com/cpp/utility/apply)
+* [How to Generate All the Combinations from Several Collections](https://www.fluentcpp.com/2022/03/18/how-to-generate-all-the-combinations-from-several-collections/) by Jonathan Boccara
 
 ## Related links
 * [Unpacking & enumerating Tuples in C++14](https://github.com/nikolaAV/Modern-Cpp/tree/master/tuple/unpacking_tuples)
